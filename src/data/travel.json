@@ -5,7 +5,13 @@
     "flights": 95,
     "distanceKm": 362629,
     "flightMinutes": 30300,
-    "airports": 51
+    "airports": 51,
+    "firstFlight": "2015-05-05",
+    "mostLandings": {
+      "city": "Toronto",
+      "code": "YYZ",
+      "count": 28
+    }
   },
   "places": [
     {

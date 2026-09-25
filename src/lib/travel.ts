@@ -18,6 +18,11 @@ const EARTH_KM = 40_075;
 const MOON_KM = 384_400;
 const SUN_KM = 4_379_000; // circumference
 
+// 193 UN members plus the two observer states (Vatican City, Palestine)
+const WORLD_COUNTRIES = 195;
+// Visited places that aren't sovereign countries, so not counted toward the share
+const TERRITORIES = new Set(["HK"]);
+
 const regionName = new Intl.DisplayNames("en", { type: "region" });
 const countryName = (iso: string) => (iso === "HK" ? "Hong Kong" : regionName.of(iso) ?? iso);
 
@@ -54,20 +59,28 @@ export function getTravelMap(): TravelMapData {
   };
 }
 
+export type TravelStats = ReturnType<typeof getTravelStats>;
+
 export function getTravelStats() {
-  const { flights, distanceKm, flightMinutes, airports } = data.stats;
-  const days = Math.floor(flightMinutes / 1440);
-  const hours = Math.floor((flightMinutes % 1440) / 60);
+  const { flights, distanceKm, flightMinutes, airports, firstFlight, mostLandings } = data.stats;
+  const visited = [...new Set(data.places.map((p) => p.iso))]
+    .filter((iso) => !TERRITORIES.has(iso))
+    .map(countryName)
+    .sort();
   return {
     asOf: data.asOf,
     flights,
     distanceKm,
-    flightTime: `${days}d ${hours}h`,
+    flightMinutes,
     airports,
-    comparisons: [
-      { label: "Around the Earth", times: distanceKm / EARTH_KM },
-      { label: "To the Moon", times: distanceKm / MOON_KM },
-      { label: "Around the Sun", times: distanceKm / SUN_KM },
-    ],
+    since: new Date(`${firstFlight}T00:00:00`).toLocaleDateString("en-US", { month: "short", year: "numeric" }),
+    kmPerFlight: Math.round(distanceKm / flights),
+    hours: Math.round(flightMinutes / 60),
+    mostLandings,
+    countries: { visited, of: WORLD_COUNTRIES },
+    earthLaps: distanceKm / EARTH_KM,
+    moonShare: distanceKm / MOON_KM,
+    sunShare: distanceKm / SUN_KM,
+    reference: { earthKm: EARTH_KM, moonKm: MOON_KM, sunKm: SUN_KM },
   };
 }

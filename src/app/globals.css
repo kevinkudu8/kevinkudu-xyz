@@ -64,3 +64,10 @@ mark {
     opacity: 0;
   }
 }
+
+/* Travel stats: a plane circling the globe */
+@keyframes orbit {
+  to {
+    transform: rotate(360deg);
+  }
+}
