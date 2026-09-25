@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { RunBadge } from "@/components/run-badge";
 import { Shelf } from "@/components/shelf";
 import { getBooks } from "@/lib/books";
 import { getFilms } from "@/lib/films";
@@ -32,13 +33,13 @@ export default async function MyLifePage() {
   }));
 
   return (
-    <main className="px-gutter flex-1 py-16 sm:py-24">
+    <main className="flex-1 px-[clamp(1.725rem,7.19vw,8.625rem)] py-16 sm:py-24">
       <h1 className="text-[clamp(1.8rem,2.45vw,2.95rem)] tracking-[0.05em]">My Life</h1>
       <p className="mt-8 max-w-prose text-sm tracking-[0.05em] sm:text-base">
         I believe life is about consuming beautiful things with people you love. Here are
         things I have consumed.
       </p>
-      <Shelf books={bookItems} films={filmItems} />
+      <Shelf books={bookItems} films={filmItems} running={<RunBadge />} />
     </main>
   );
 }

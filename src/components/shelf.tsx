@@ -15,7 +15,15 @@ const tabs = [
 
 type TabId = (typeof tabs)[number]["id"];
 
-export function Shelf({ books, films }: { books: ShelfItem[]; films: ShelfItem[] }) {
+export function Shelf({
+  books,
+  films,
+  running,
+}: {
+  books: ShelfItem[];
+  films: ShelfItem[];
+  running: ReactNode;
+}) {
   const [tab, setTab] = useState<TabId>("books");
   const [favouritesOnly, setFavouritesOnly] = useState(true);
   const [visible, setVisible] = useState(PAGE);
@@ -100,7 +108,7 @@ export function Shelf({ books, films }: { books: ShelfItem[]; films: ShelfItem[]
                 </div>
 
                 {shown.length ? (
-                  <ul className="mt-12 grid grid-cols-2 gap-x-8 gap-y-14 sm:grid-cols-3 sm:gap-x-12 lg:grid-cols-4 lg:gap-x-[clamp(3rem,5vw,6rem)] lg:gap-y-20">
+                  <ul className="mt-12 grid grid-cols-2 gap-x-6 gap-y-12 sm:grid-cols-[repeat(3,clamp(8.5rem,12vw,12.5rem))] sm:gap-x-10 lg:grid-cols-[repeat(4,clamp(8.5rem,12vw,12.5rem))] lg:gap-x-[clamp(2rem,3.5vw,4rem)] lg:gap-y-16">
                     {shown.slice(0, visible).map((item) => (
                       <Card key={item.id} item={item} book={t.id === "books"} />
                     ))}
@@ -134,6 +142,8 @@ export function Shelf({ books, films }: { books: ShelfItem[]; films: ShelfItem[]
                   </p>
                 )}
               </>
+            ) : t.id === "running" ? (
+              running
             ) : (
               <Empty>Coming soon.</Empty>
             )}
@@ -216,7 +226,7 @@ function Card({ item, book }: { item: ShelfItem; book: boolean }) {
           // Fore-edge: perpendicular to the cover, hidden edge-on until the book turns
           <span
             aria-hidden
-            className="absolute top-[1.5%] bottom-[1.5%] left-full w-[10.5%] origin-left [transform:rotateY(90deg)] bg-[repeating-linear-gradient(to_right,#f6f4ec_0_1px,#dedad0_1px_2px)] shadow-[inset_-2px_0_0_rgb(0_0_0/0.3)]"
+            className="absolute top-[1.5%] bottom-[1.5%] left-full w-[13.65%] origin-left [transform:rotateY(90deg)] bg-[repeating-linear-gradient(to_right,#f6f4ec_0_1px,#dedad0_1px_2px)] shadow-[inset_-2px_0_0_rgb(0_0_0/0.3)]"
           />
         )}
       </div>
@@ -236,7 +246,7 @@ function Card({ item, book }: { item: ShelfItem; book: boolean }) {
   );
 
   return (
-    <li className="group w-full max-w-[clamp(8.5rem,12vw,12.5rem)]">
+    <li className="group">
       {item.href ? (
         <a href={item.href} target="_blank" rel="noreferrer" className="block focus-visible:outline-offset-8">
           {object}
