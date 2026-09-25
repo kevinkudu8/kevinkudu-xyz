@@ -10,9 +10,28 @@ export type EventEntry = {
   slug: string;
   title: string;
   featured: boolean;
+  /** Placeholder details; shows a "Sample content" tag */
+  sample: boolean;
+  details: { label: string; value: string }[];
+  stats: { value: string; label: string }[];
   paragraphs: string[];
   images: string[];
 };
+
+const DETAILS = [
+  ["client", "Client"],
+  ["role", "Role"],
+  ["location", "Location"],
+  ["year", "Year"],
+] as const;
+
+// "1,650 = Sign-ups; 22M = Impressions"
+const parseStats = (value = "") =>
+  value
+    .split(";")
+    .map((pair) => pair.split("="))
+    .filter((parts) => parts.length === 2 && parts[0].trim() && parts[1].trim())
+    .map(([v, label]) => ({ value: v.trim(), label: label.trim() }));
 
 function parse(markdown: string) {
   const match = markdown.match(/^---\s*\n([\s\S]*?)\n---\s*\n?([\s\S]*)$/);
@@ -40,6 +59,9 @@ export function getEvents(): EventEntry[] {
           slug,
           title: meta.title || slug.replace(/-/g, " "),
           featured: meta.featured === "true",
+          sample: meta.sample === "true",
+          details: DETAILS.filter(([key]) => meta[key]).map(([key, label]) => ({ label, value: meta[key] })),
+          stats: parseStats(meta.stats),
           paragraphs,
           images: files
             .filter((f) => IMAGE.test(f))

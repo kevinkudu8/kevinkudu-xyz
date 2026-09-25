@@ -5,7 +5,7 @@ import { getEvents } from "@/lib/events";
 export const metadata: Metadata = { title: "Events" };
 
 const INTRO =
-  "Physical spaces created around the globe. Designed to improve how brands and companies connect with the people keeping them relevant.";
+  "Physical spaces around the globe, designed to help brands connect with the people who keep them relevant.";
 
 export default function EventsPage() {
   return (
