@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { RunBadge } from "@/components/run-badge";
 import { Shelf } from "@/components/shelf";
+import { TravelMap } from "@/components/travel-map";
+import { TravelStats } from "@/components/travel-stats";
 import { getBooks } from "@/lib/books";
 import { getFilms } from "@/lib/films";
 import type { ShelfItem } from "@/lib/shelf-item";
@@ -40,7 +42,17 @@ export default async function MyLifePage() {
           I believe life is about consuming beautiful things with people you love. Here are
           things I have consumed.
         </p>
-        <Shelf books={bookItems} films={filmItems} running={<RunBadge />} />
+        <Shelf
+          books={bookItems}
+          films={filmItems}
+          running={<RunBadge />}
+          travel={
+            <>
+              <TravelMap />
+              <TravelStats />
+            </>
+          }
+        />
       </div>
     </main>
   );

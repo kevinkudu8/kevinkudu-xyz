@@ -1,0 +1,220 @@
+{
+  "asOf": "2026-09-26",
+  "note": "Stats from Flighty Passport (all-time). Places: Kevin's list of countries visited (20). Cities from overnight stays in the Flighty export; entries marked approximate are placeholder cities in countries reached by land or only connected through.",
+  "stats": {
+    "flights": 95,
+    "distanceKm": 362629,
+    "flightMinutes": 30300,
+    "airports": 51
+  },
+  "places": [
+    {
+      "city": "Buenos Aires",
+      "iso": "AR",
+      "lat": -34.822,
+      "lon": -58.536
+    },
+    {
+      "city": "Calgary",
+      "iso": "CA",
+      "lat": 51.119,
+      "lon": -114.01
+    },
+    {
+      "city": "Toronto",
+      "iso": "CA",
+      "lat": 43.676,
+      "lon": -79.629
+    },
+    {
+      "city": "Bogotá",
+      "iso": "CO",
+      "lat": 4.702,
+      "lon": -74.147
+    },
+    {
+      "city": "Frankfurt",
+      "iso": "DE",
+      "lat": 50.027,
+      "lon": 8.558,
+      "approximate": true
+    },
+    {
+      "city": "Barcelona",
+      "iso": "ES",
+      "lat": 41.297,
+      "lon": 2.078
+    },
+    {
+      "city": "Paris",
+      "iso": "FR",
+      "lat": 49.009,
+      "lon": 2.554
+    },
+    {
+      "city": "Hong Kong",
+      "iso": "HK",
+      "lat": 22.312,
+      "lon": 113.915
+    },
+    {
+      "city": "Zagreb",
+      "iso": "HR",
+      "lat": 45.743,
+      "lon": 16.069,
+      "approximate": true
+    },
+    {
+      "city": "Bengaluru",
+      "iso": "IN",
+      "lat": 13.198,
+      "lon": 77.706
+    },
+    {
+      "city": "Mumbai",
+      "iso": "IN",
+      "lat": 19.089,
+      "lon": 72.868
+    },
+    {
+      "city": "New Delhi",
+      "iso": "IN",
+      "lat": 28.556,
+      "lon": 77.095
+    },
+    {
+      "city": "Thiruvananthapuram",
+      "iso": "IN",
+      "lat": 8.482,
+      "lon": 76.92
+    },
+    {
+      "city": "Naples",
+      "iso": "IT",
+      "lat": 40.886,
+      "lon": 14.291
+    },
+    {
+      "city": "Rome",
+      "iso": "IT",
+      "lat": 41.805,
+      "lon": 12.252
+    },
+    {
+      "city": "Tokyo",
+      "iso": "JP",
+      "lat": 35.55,
+      "lon": 139.787
+    },
+    {
+      "city": "Jeju",
+      "iso": "KR",
+      "lat": 33.512,
+      "lon": 126.493
+    },
+    {
+      "city": "Seoul",
+      "iso": "KR",
+      "lat": 37.469,
+      "lon": 126.451
+    },
+    {
+      "city": "Mexico City",
+      "iso": "MX",
+      "lat": 19.436,
+      "lon": -99.07
+    },
+    {
+      "city": "Oaxaca",
+      "iso": "MX",
+      "lat": 16.999,
+      "lon": -96.726
+    },
+    {
+      "city": "Kathmandu",
+      "iso": "NP",
+      "lat": 27.697,
+      "lon": 85.359
+    },
+    {
+      "city": "Warsaw",
+      "iso": "PL",
+      "lat": 52.166,
+      "lon": 20.967,
+      "approximate": true
+    },
+    {
+      "city": "Lisbon",
+      "iso": "PT",
+      "lat": 38.781,
+      "lon": -9.136
+    },
+    {
+      "city": "Singapore",
+      "iso": "SG",
+      "lat": 1.35,
+      "lon": 103.994
+    },
+    {
+      "city": "Bangkok",
+      "iso": "TH",
+      "lat": 13.681,
+      "lon": 100.747
+    },
+    {
+      "city": "Chiang Mai",
+      "iso": "TH",
+      "lat": 18.767,
+      "lon": 98.963
+    },
+    {
+      "city": "Phuket",
+      "iso": "TH",
+      "lat": 8.113,
+      "lon": 98.317
+    },
+    {
+      "city": "Istanbul",
+      "iso": "TR",
+      "lat": 41.275,
+      "lon": 28.732,
+      "approximate": true
+    },
+    {
+      "city": "Austin",
+      "iso": "US",
+      "lat": 30.198,
+      "lon": -97.662
+    },
+    {
+      "city": "Denver",
+      "iso": "US",
+      "lat": 39.86,
+      "lon": -104.674
+    },
+    {
+      "city": "Houston",
+      "iso": "US",
+      "lat": 29.984,
+      "lon": -95.341
+    },
+    {
+      "city": "Las Vegas",
+      "iso": "US",
+      "lat": 36.083,
+      "lon": -115.152
+    },
+    {
+      "city": "New York",
+      "iso": "US",
+      "lat": 40.777,
+      "lon": -73.873
+    },
+    {
+      "city": "Washington, D.C.",
+      "iso": "US",
+      "lat": 38.944,
+      "lon": -77.456
+    }
+  ]
+}

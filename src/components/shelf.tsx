@@ -19,10 +19,12 @@ export function Shelf({
   books,
   films,
   running,
+  travel,
 }: {
   books: ShelfItem[];
   films: ShelfItem[];
   running: ReactNode;
+  travel: ReactNode;
 }) {
   const [tab, setTab] = useState<TabId>("books");
   const [favouritesOnly, setFavouritesOnly] = useState(true);
@@ -54,7 +56,7 @@ export function Shelf({
       <div
         role="tablist"
         aria-label="Shelves"
-        className="flex gap-6 overflow-x-auto border-b border-foreground font-mono text-[0.7rem] tracking-[0.1em] uppercase sm:gap-10 sm:text-xs"
+        className="flex flex-wrap gap-x-6 gap-y-1 border-b border-foreground font-mono text-[0.7rem] tracking-[0.1em] uppercase sm:gap-10 sm:text-xs"
       >
         {tabs.map((t, i) => {
           const selected = t.id === tab;
@@ -144,6 +146,8 @@ export function Shelf({
               </>
             ) : t.id === "running" ? (
               running
+            ) : t.id === "travel" ? (
+              travel
             ) : (
               <Empty>Coming soon.</Empty>
             )}
