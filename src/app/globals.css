@@ -21,8 +21,8 @@
   --font-mono: ui-monospace, "SF Mono", SFMono-Regular, Menlo, "Cascadia Mono",
     "Roboto Mono", monospace;
 
-  /* Page gutter: 54/1920 of the design frame */
-  --spacing-gutter: clamp(1.5rem, 2.8vw, 3.375rem);
+  /* Page gutter: generous side room, 120px at 1920 */
+  --spacing-gutter: clamp(1.5rem, 6.25vw, 7.5rem);
 }
 
 body {

@@ -16,12 +16,12 @@ export function SiteHeader() {
       >
         <Link
           href="/"
-          className="text-base sm:text-lg lg:text-xl"
+          className="text-[0.9rem] sm:text-base lg:text-lg"
         >
           Kevin Kudu
         </Link>
 
-        <ul className="flex items-center gap-5 text-sm sm:gap-10 sm:text-base lg:gap-20 lg:text-lg">
+        <ul className="flex items-center gap-5 text-[0.8rem] sm:gap-10 sm:text-[0.9rem] lg:gap-20 lg:text-[1.0125rem]">
           {links.map((link) => (
             <li key={link.href}>
               <Link
