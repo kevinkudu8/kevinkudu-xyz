@@ -45,3 +45,6 @@ next-env.d.ts
 
 # third-party inspiration screenshots (kept local, not published)
 /design/references/
+
+# personal data exports (Letterboxd etc.) - never publish
+/design/*.zip

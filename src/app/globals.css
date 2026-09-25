@@ -7,7 +7,6 @@
   --highlight: #d9d9d9;
   --muted: #6b6b6b;
   --rule: #d4d4d4;
-  --lime: #cdfc51;
   --grid-line: rgb(0 0 0 / 0.075);
 }
 
@@ -17,7 +16,6 @@
   --color-highlight: var(--highlight);
   --color-muted: var(--muted);
   --color-rule: var(--rule);
-  --color-lime: var(--lime);
   --color-grid-line: var(--grid-line);
 
   /* SF Pro / SF Mono on Apple devices, sensible fallbacks elsewhere */
@@ -44,4 +42,15 @@ mark {
   padding: 0.05em 0.25em;
   box-decoration-break: clone;
   -webkit-box-decoration-break: clone;
+}
+
+/* Square-dotted frame for header links (CSS `dotted` borders draw round dots) */
+.dotted-frame {
+  --dot: 2.5px;
+  --step: 5.5px;
+  background:
+    linear-gradient(to right, currentColor var(--dot), transparent 0) top left / var(--step) var(--dot) repeat-x,
+    linear-gradient(to right, currentColor var(--dot), transparent 0) bottom left / var(--step) var(--dot) repeat-x,
+    linear-gradient(to bottom, currentColor var(--dot), transparent 0) top left / var(--dot) var(--step) repeat-y,
+    linear-gradient(to bottom, currentColor var(--dot), transparent 0) top right / var(--dot) var(--step) repeat-y;
 }

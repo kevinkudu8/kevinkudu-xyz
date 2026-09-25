@@ -6,13 +6,12 @@ const crosshair = `url("data:image/svg+xml,${encodeURIComponent(
 )}")`;
 
 /**
- * Drafting-paper backdrop: faint halftone dots, horizontal rules, and column
- * lines at the page gutters and thirds, with a + at each intersection.
+ * Drafting-paper backdrop: horizontal rules and column lines at the page
+ * gutters and thirds, with a + at each intersection.
  */
 export function BackgroundGrid() {
   return (
     <div aria-hidden className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
-      <div className="absolute inset-0 bg-[radial-gradient(rgb(0_0_0/0.055)_0.6px,transparent_0.8px)] bg-size-[5px_5px]" />
       <div
         className="absolute inset-0"
         style={{
