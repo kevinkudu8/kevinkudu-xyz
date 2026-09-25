@@ -1,5 +1,6 @@
 import { readdirSync, readFileSync, statSync } from "node:fs";
 import { join } from "node:path";
+import { parseFrontmatter } from "@/lib/frontmatter";
 
 // Each event is a folder in public/events: event.md plus images (see the
 // README there). The folder name is the event's link.
@@ -33,17 +34,6 @@ const parseStats = (value = "") =>
     .filter((parts) => parts.length === 2 && parts[0].trim() && parts[1].trim())
     .map(([v, label]) => ({ value: v.trim(), label: label.trim() }));
 
-function parse(markdown: string) {
-  const match = markdown.match(/^---\s*\n([\s\S]*?)\n---\s*\n?([\s\S]*)$/);
-  const meta: Record<string, string> = {};
-  for (const line of (match?.[1] ?? "").split("\n")) {
-    const [key, ...rest] = line.split(":");
-    if (key?.trim() && rest.length) meta[key.trim()] = rest.join(":").trim();
-  }
-  const body = (match ? match[2] : markdown).trim();
-  return { meta, paragraphs: body ? body.split(/\n\s*\n/).map((p) => p.replace(/\s+/g, " ").trim()) : [] };
-}
-
 export function getEvents(): EventEntry[] {
   const folders = readdirSync(ROOT).filter((name) => statSync(join(ROOT, name)).isDirectory());
 
@@ -52,7 +42,7 @@ export function getEvents(): EventEntry[] {
       const dir = join(ROOT, slug);
       const files = readdirSync(dir);
       const md = files.includes("event.md") ? readFileSync(join(dir, "event.md"), "utf8") : "";
-      const { meta, paragraphs } = parse(md);
+      const { meta, paragraphs } = parseFrontmatter(md);
       return {
         order: Number(meta.order ?? Infinity),
         entry: {
