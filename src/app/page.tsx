@@ -62,7 +62,7 @@ export default function Home() {
           />
         </TiltPortrait>
 
-        <p className="min-w-0 max-w-[910px] text-[clamp(1.2375rem,2.06vw,2.475rem)] leading-[2.05] tracking-[0.05em]">
+        <p className="min-w-0 max-w-[1000px] text-[clamp(1.75rem,3.3vw,3.5rem)] leading-[1.12] tracking-[-0.015em]">
           I create{" "}
           <HoverWord href="/events" card={eventsCard}>
             events

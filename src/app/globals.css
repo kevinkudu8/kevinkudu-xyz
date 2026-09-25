@@ -36,8 +36,8 @@ body {
 mark {
   background-color: var(--highlight);
   color: inherit;
-  border-radius: 0.375rem;
-  padding: 0.05em 0.25em;
+  border-radius: 0.18em;
+  padding: 0 0.18em;
   box-decoration-break: clone;
   -webkit-box-decoration-break: clone;
 }
@@ -69,5 +69,12 @@ mark {
 @keyframes orbit {
   to {
     transform: rotate(360deg);
+  }
+}
+
+/* Events: fade in the large image when it changes */
+@keyframes fade-in {
+  from {
+    opacity: 0;
   }
 }
