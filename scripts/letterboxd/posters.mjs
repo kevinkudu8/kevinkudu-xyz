@@ -15,22 +15,29 @@ const { films } = data;
 const todo = films.filter((f) => !("tmdbId" in f));
 const normalise = (s = "") => s.toLowerCase().normalize("NFKD").replace(/[^a-z0-9]/g, "");
 
-async function search(params) {
-  const url = new URL("https://api.themoviedb.org/3/search/movie");
+async function search(params, kind = "movie") {
+  const url = new URL(`https://api.themoviedb.org/3/search/${kind}`);
   for (const [k, v] of Object.entries(params)) url.searchParams.set(k, v);
   const res = await fetch(url, { headers: { Authorization: `Bearer ${token}` }, signal: AbortSignal.timeout(15_000) });
-  if (res.status === 429) { await new Promise((r) => setTimeout(r, 2000)); return search(params); }
+  if (res.status === 429) { await new Promise((r) => setTimeout(r, 2000)); return search(params, kind); }
   if (!res.ok) throw new Error(`TMDB ${res.status}: ${await res.text()}`);
   return (await res.json()).results ?? [];
 }
 
 // A wrong poster is worse than none: require the title to match exactly
 // (normalised), and the release year to be within a year of Letterboxd's.
-function pick(results, film) {
+// Letterboxd also lists TV series, which TMDB keeps under /search/tv with
+// `name` and `first_air_date` instead of `title` and `release_date`.
+function pick(results, film, { prefix = false } = {}) {
   const want = normalise(film.title);
   return results.find((r) => {
-    const titles = [r.title, r.original_title].map(normalise);
-    const year = Number((r.release_date ?? "").slice(0, 4));
+    const titles = [r.title, r.original_title, r.name, r.original_name].filter(Boolean).map(normalise);
+    const year = Number((r.release_date ?? r.first_air_date ?? "").slice(0, 4));
+    if (prefix) {
+      // Looser title ("Glass Onion" vs "Glass Onion: A Knives Out Mystery"),
+      // so demand the exact year
+      return film.year && year === film.year && titles.some((t) => t.startsWith(want) || want.startsWith(t));
+    }
     return titles.includes(want) && (!film.year || !year || Math.abs(year - film.year) <= 1);
   });
 }
@@ -42,6 +49,8 @@ await Promise.all(Array.from({ length: 8 }, async () => {
     const film = todo[i++];
     let hit = film.year ? pick(await search({ query: film.title, primary_release_year: film.year }), film) : undefined;
     hit ??= pick(await search({ query: film.title }), film);
+    hit ??= pick(await search({ query: film.title, ...(film.year && { first_air_date_year: film.year }) }, "tv"), film);
+    hit ??= film.year ? pick(await search({ query: film.title, year: film.year }), film, { prefix: true }) : undefined;
     film.tmdbId = hit?.id ?? null;
     if (hit?.poster_path) film.poster = hit.poster_path;
     if (++done % 100 === 0) console.log(`${done}/${todo.length}`);

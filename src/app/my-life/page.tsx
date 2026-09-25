@@ -16,6 +16,7 @@ export default async function MyLifePage() {
     meta: b.year ? `Year read ${b.year}` : "",
     favourite: b.favourite,
     image: b.cover,
+    aspect: b.aspect,
     imageUnoptimized: b.cover?.startsWith("/covers/"),
   }));
 

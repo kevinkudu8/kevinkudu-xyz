@@ -180,12 +180,18 @@ function FilterPill({
  * page edges; posters just lift.
  */
 function Card({ item, book }: { item: ShelfItem; book: boolean }) {
+  // Draw the cover at its true shape inside a 2:3 slot, standing on the slot's
+  // bottom edge, so nothing is cropped and captions still line up per row.
+  const aspect = item.aspect ?? null;
+  const fit = !aspect ? "h-full w-full" : aspect >= 2 / 3 ? "w-full" : "h-full";
+
   const object = (
-    <div className="[perspective:1400px]">
+    <div className="relative flex aspect-[2/3] items-end [perspective:1400px]">
       <div
-        className={`relative aspect-[2/3] transition-transform duration-500 ease-[cubic-bezier(0.2,0.7,0.2,1)] [transform-style:preserve-3d] motion-reduce:transition-none ${
+        style={aspect ? { aspectRatio: String(aspect) } : undefined}
+        className={`relative ${fit} transition-transform duration-500 ease-[cubic-bezier(0.2,0.7,0.2,1)] [transform-style:preserve-3d] motion-reduce:transition-none ${
           book
-            ? "group-hover:[transform:rotateY(-26deg)_translateX(-5%)_scale(1.04)] motion-reduce:group-hover:[transform:none]"
+            ? "group-hover:[transform:rotateY(-26deg)_translateX(-6%)_scale(1.04)] motion-reduce:group-hover:[transform:none]"
             : "group-hover:-translate-y-1 group-focus-within:-translate-y-1"
         }`}
       >
@@ -195,12 +201,12 @@ function Card({ item, book }: { item: ShelfItem; book: boolean }) {
               src={item.image}
               alt={`Cover of ${item.title}`}
               fill
-              sizes="(max-width: 640px) 45vw, (max-width: 1024px) 30vw, 22vw"
+              sizes="(max-width: 640px) 40vw, 13rem"
               unoptimized={item.imageUnoptimized}
               className="object-cover"
             />
           ) : (
-            <div className="flex h-full flex-col justify-between p-4 font-mono text-[0.65rem] leading-snug tracking-[0.08em] uppercase">
+            <div className="flex h-full flex-col justify-between p-3 font-mono text-[0.6rem] leading-snug tracking-[0.08em] uppercase">
               <span className="line-clamp-6">{item.title}</span>
               <span className="text-muted">{item.byline}</span>
             </div>
@@ -210,7 +216,7 @@ function Card({ item, book }: { item: ShelfItem; book: boolean }) {
           // Fore-edge: perpendicular to the cover, hidden edge-on until the book turns
           <span
             aria-hidden
-            className="absolute top-[1.5%] bottom-[1.5%] left-full w-[7%] origin-left [transform:rotateY(90deg)] bg-[repeating-linear-gradient(to_right,#f6f4ec_0_1px,#dedad0_1px_2px)] shadow-[inset_-2px_0_0_rgb(0_0_0/0.3)]"
+            className="absolute top-[1.5%] bottom-[1.5%] left-full w-[10.5%] origin-left [transform:rotateY(90deg)] bg-[repeating-linear-gradient(to_right,#f6f4ec_0_1px,#dedad0_1px_2px)] shadow-[inset_-2px_0_0_rgb(0_0_0/0.3)]"
           />
         )}
       </div>
@@ -230,7 +236,7 @@ function Card({ item, book }: { item: ShelfItem; book: boolean }) {
   );
 
   return (
-    <li className="group">
+    <li className="group w-full max-w-[clamp(8.5rem,12vw,12.5rem)]">
       {item.href ? (
         <a href={item.href} target="_blank" rel="noreferrer" className="block focus-visible:outline-offset-8">
           {object}

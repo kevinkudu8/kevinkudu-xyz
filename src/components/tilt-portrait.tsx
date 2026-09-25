@@ -8,6 +8,8 @@ const SMOOTHING = 0.085; // share of the remaining distance covered per 60fps fr
 
 const clamp = (n: number) => Math.max(-1, Math.min(1, n));
 
+const REST_SHADOW = "0 18px 36px -20px rgb(0 0 0 / 0.35)";
+
 /**
  * Tilts its contents toward the pointer anywhere on the page, with the photo
  * drifting slightly inside the frame for depth. Mouse and trackpad only;
@@ -44,7 +46,7 @@ export function TiltPortrait({
       const { x, y } = current;
       const strength = Math.hypot(x, y) / Math.SQRT2;
       card!.style.transform = `rotateX(${-y * MAX_TILT}deg) rotateY(${x * MAX_TILT}deg)`;
-      card!.style.boxShadow = `${-x * 18}px ${16 - y * 10}px 44px -20px rgb(0 0 0 / ${0.5 * strength})`;
+      card!.style.boxShadow = `${REST_SHADOW}, ${-x * 18}px ${16 - y * 10}px 44px -20px rgb(0 0 0 / ${0.5 * strength})`;
       photo!.style.transform = `translate3d(${-x * PARALLAX}px, ${-y * PARALLAX}px, 0) scale(1.07)`;
       sheen!.style.opacity = String(0.55 * strength);
       sheen!.style.background = `radial-gradient(circle at ${50 + x * 45}% ${50 + y * 45}%, rgb(255 255 255 / 0.28), transparent 60%)`;
@@ -103,6 +105,7 @@ export function TiltPortrait({
     <div className={className} style={{ perspective: "900px" }}>
       <div
         ref={cardRef}
+        style={{ boxShadow: REST_SHADOW }}
         className="relative h-full w-full overflow-hidden rounded-[inherit] [isolation:isolate] will-change-transform"
       >
         <div ref={photoRef} className="h-full w-full will-change-transform">
