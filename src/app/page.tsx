@@ -65,14 +65,14 @@ export default function Home() {
         <p className="min-w-0 max-w-[1000px] text-[clamp(1.75rem,3.3vw,3.5rem)] leading-[1.12] tracking-[-0.015em]">
           I create{" "}
           <HoverWord href="/events" card={eventsCard}>
-            events
+            events 🎪
           </HoverWord>{" "}
-          🎪 and{" "}
+          and{" "}
           <HoverWord href="/content" card={contentCard}>
-            content
+            content 🎥
           </HoverWord>{" "}
-          🎥 for tech and web3 companies. Currently living in{" "}
-          <HoverWord card={seoulCard}>Seoul</HoverWord> 🇰🇷. I love{" "}
+          for tech and web3 companies. Currently living in{" "}
+          <HoverWord card={seoulCard}>Seoul 🇰🇷</HoverWord>. I love{" "}
           <HoverWord href="/my-life" card={consumingCard}>
             consuming
           </HoverWord>{" "}
