@@ -7,6 +7,8 @@
   --highlight: #d9d9d9;
   --muted: #6b6b6b;
   --rule: #d4d4d4;
+  --lime: #cdfc51;
+  --grid-line: rgb(0 0 0 / 0.075);
 }
 
 @theme inline {
@@ -15,6 +17,8 @@
   --color-highlight: var(--highlight);
   --color-muted: var(--muted);
   --color-rule: var(--rule);
+  --color-lime: var(--lime);
+  --color-grid-line: var(--grid-line);
 
   /* SF Pro / SF Mono on Apple devices, sensible fallbacks elsewhere */
   --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;

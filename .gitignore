@@ -42,3 +42,6 @@ next-env.d.ts
 
 # but do commit the example
 !.env.example
+
+# third-party inspiration screenshots (kept local, not published)
+/design/references/

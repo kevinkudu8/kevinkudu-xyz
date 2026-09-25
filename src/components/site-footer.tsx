@@ -1,6 +1,9 @@
+import { LocalTime } from "@/components/local-time";
+
 export function SiteFooter() {
   return (
-    <footer className="px-gutter pb-10 sm:pb-16">
+    <footer className="px-gutter flex min-h-5 items-center justify-between gap-4 pb-10 font-mono text-[0.72rem] tracking-[0.06em] uppercase sm:pb-16 sm:text-[0.8rem]">
+      <LocalTime />
       <a
         href="https://x.com/kevkudu"
         target="_blank"

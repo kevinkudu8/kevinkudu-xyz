@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
+import { BackgroundGrid } from "@/components/background-grid";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -16,7 +17,8 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en" className="h-full antialiased">
-      <body className="flex min-h-full flex-col">
+      <body className="relative isolate flex min-h-full flex-col">
+        <BackgroundGrid />
         <SiteHeader />
         {children}
         <SiteFooter />
