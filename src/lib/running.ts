@@ -34,3 +34,7 @@ export function getRunning() {
 
   return { km, miles: km / KM_PER_MILE, asOf: data.asOf, level, progress, goal };
 }
+
+export function getRunningStats() {
+  return { records: data.records, monthly: data.monthly, streaks: data.streaks, asOf: data.asOf };
+}

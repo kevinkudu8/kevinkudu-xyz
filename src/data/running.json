@@ -1,5 +1,98 @@
 {
   "totalKm": 4289.95,
   "asOf": "2026-09-26",
-  "note": "From Nike Run Club (no API). Purple, 85.05 km short of the 3rd milestone at 4,375 km. Update totalKm and asOf by hand."
+  "note": "From Nike Run Club (no API), transcribed from the app on 2026-09-26. Level: Purple, 85.05 km short of the 3rd milestone at 4,375 km. Update by hand.",
+  "records": [
+    {
+      "badge": "1K",
+      "label": "Fastest 1K",
+      "value": "3:55",
+      "date": "2021-04-28"
+    },
+    {
+      "badge": "1MI",
+      "label": "Fastest mile",
+      "value": "6:34",
+      "date": "2024-02-04"
+    },
+    {
+      "badge": "5K",
+      "label": "Fastest 5K",
+      "value": "20:45",
+      "date": "2024-02-04"
+    },
+    {
+      "badge": "10K",
+      "label": "Fastest 10K",
+      "value": "42:24",
+      "date": "2024-02-04"
+    },
+    {
+      "badge": "21.1K",
+      "label": "Fastest half marathon",
+      "value": "1:42:24",
+      "date": "2025-10-20"
+    },
+    {
+      "badge": "42.2K",
+      "label": "Fastest marathon",
+      "value": "3:25:34",
+      "date": "2025-10-20"
+    },
+    {
+      "badge": "far",
+      "label": "Furthest run",
+      "value": "42.73 km",
+      "date": "2024-05-06"
+    },
+    {
+      "badge": "long",
+      "label": "Longest run",
+      "value": "4:11:15",
+      "date": "2024-05-06"
+    }
+  ],
+  "monthly": [
+    {
+      "tier": "Bronze",
+      "km": 24,
+      "times": 43,
+      "color": "#a8704f"
+    },
+    {
+      "tier": "Silver",
+      "km": 40,
+      "times": 37,
+      "color": "#b7bbbf"
+    },
+    {
+      "tier": "Gold",
+      "km": 80,
+      "times": 27,
+      "color": "#c9a24c"
+    },
+    {
+      "tier": "Platinum",
+      "km": 160,
+      "times": 5,
+      "color": "#6e7378"
+    }
+  ],
+  "streaks": [
+    {
+      "length": 3,
+      "unit": "week",
+      "times": 20
+    },
+    {
+      "length": 6,
+      "unit": "week",
+      "times": 9
+    },
+    {
+      "length": 3,
+      "unit": "month",
+      "times": 5
+    }
+  ]
 }

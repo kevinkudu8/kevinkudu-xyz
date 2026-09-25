@@ -1,5 +1,8 @@
 import type { Metadata } from "next";
 import { RunBadge } from "@/components/run-badge";
+import { RunMap } from "@/components/run-map";
+import { RunMilestones } from "@/components/run-milestones";
+import { RunRecords } from "@/components/run-records";
 import { Shelf } from "@/components/shelf";
 import { TravelMap } from "@/components/travel-map";
 import { TravelStats } from "@/components/travel-stats";
@@ -45,7 +48,14 @@ export default async function MyLifePage() {
         <Shelf
           books={bookItems}
           films={filmItems}
-          running={<RunBadge />}
+          running={
+            <>
+              <RunMap />
+              <RunBadge />
+              <RunRecords />
+              <RunMilestones />
+            </>
+          }
           travel={
             <>
               <TravelMap />
