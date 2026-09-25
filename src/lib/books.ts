@@ -1,6 +1,6 @@
 import { cacheLife } from "next/cache";
 import coverIds from "@/data/book-covers.json";
-import { airtableConfig, env, isBuild, listRecords } from "@/lib/airtable";
+import { airtableConfig, airtableTableId, isBuild, listRecords } from "@/lib/airtable";
 
 export type Book = {
   id: string;
@@ -38,7 +38,7 @@ export async function getBooks(): Promise<Book[]> {
   "use cache";
   cacheLife("hours");
 
-  const tableId = env("AIRTABLE_TABLE_ID");
+  const tableId = airtableTableId();
   if (!airtableConfig() || !tableId) {
     console.warn("[books] Airtable env vars missing; rendering an empty shelf");
     return [];

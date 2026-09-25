@@ -12,9 +12,16 @@ export function env(name: string): string | undefined {
   return raw.replace(new RegExp(`^${name}=`), "").replace(/^(["'])(.*)\1$/, "$2").trim() || undefined;
 }
 
+// Airtable IDs have a fixed shape, so pull them out of whatever was pasted:
+// a bare ID, "appXXX/tblYYY", or a full airtable.com URL all work.
+const findId = (value: string | undefined, prefix: "app" | "tbl") =>
+  value?.match(new RegExp(`${prefix}[A-Za-z0-9]{14}`))?.[0];
+
+export const airtableTableId = () => findId(env("AIRTABLE_TABLE_ID"), "tbl");
+
 export function airtableConfig() {
   const token = env("AIRTABLE_TOKEN");
-  const baseId = env("AIRTABLE_BASE_ID");
+  const baseId = findId(env("AIRTABLE_BASE_ID"), "app");
   if (!token || !baseId) return null;
   return { token, baseId };
 }
