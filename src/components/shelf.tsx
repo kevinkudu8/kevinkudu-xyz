@@ -108,7 +108,7 @@ export function Shelf({
                 </div>
 
                 {shown.length ? (
-                  <ul className="mt-12 grid grid-cols-2 gap-x-6 gap-y-12 sm:grid-cols-[repeat(3,clamp(8.5rem,12vw,12.5rem))] sm:gap-x-10 lg:grid-cols-[repeat(4,clamp(8.5rem,12vw,12.5rem))] lg:gap-x-[clamp(2rem,3.5vw,4rem)] lg:gap-y-16">
+                  <ul className="mt-12 grid grid-cols-2 justify-center gap-x-6 gap-y-12 sm:grid-cols-[repeat(3,clamp(8.5rem,12vw,12.5rem))] sm:gap-x-10 lg:grid-cols-[repeat(4,clamp(8.5rem,12vw,12.5rem))] lg:gap-x-[clamp(2rem,3.5vw,4rem)] lg:gap-y-16">
                     {shown.slice(0, visible).map((item) => (
                       <Card key={item.id} item={item} book={t.id === "books"} />
                     ))}
