@@ -1,5 +1,6 @@
 import { cacheLife } from "next/cache";
 import data from "@/data/films.json";
+import { env } from "@/lib/airtable";
 
 const USERNAME = "kevinkudu";
 const FEED = `https://letterboxd.com/${USERNAME}/rss/`;
@@ -139,7 +140,7 @@ async function posterFor(tmdbId: number): Promise<string | null> {
   "use cache";
   cacheLife("max");
 
-  const token = process.env.TMDB_TOKEN;
+  const token = env("TMDB_TOKEN");
   if (!token) return null;
   try {
     const res = await fetch(`https://api.themoviedb.org/3/movie/${tmdbId}`, {

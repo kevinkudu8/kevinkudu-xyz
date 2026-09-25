@@ -2,11 +2,25 @@ const API = "https://api.airtable.com/v0";
 
 export type AirtableRecord<F> = { id: string; fields: F };
 
-export function airtableConfig() {
-  const { AIRTABLE_TOKEN, AIRTABLE_BASE_ID } = process.env;
-  if (!AIRTABLE_TOKEN || !AIRTABLE_BASE_ID) return null;
-  return { token: AIRTABLE_TOKEN, baseId: AIRTABLE_BASE_ID };
+/**
+ * Read an env var, forgiving common dashboard paste mistakes: surrounding
+ * whitespace or quotes, or the whole `NAME=value` line pasted as the value.
+ */
+export function env(name: string): string | undefined {
+  const raw = process.env[name]?.trim();
+  if (!raw) return undefined;
+  return raw.replace(new RegExp(`^${name}=`), "").replace(/^(["'])(.*)\1$/, "$2").trim() || undefined;
 }
+
+export function airtableConfig() {
+  const token = env("AIRTABLE_TOKEN");
+  const baseId = env("AIRTABLE_BASE_ID");
+  if (!token || !baseId) return null;
+  return { token, baseId };
+}
+
+/** True while `next build` is prerendering, as opposed to serving requests. */
+export const isBuild = () => process.env.NEXT_PHASE === "phase-production-build";
 
 /**
  * Fetch every record in a table, following pagination. Only the named fields

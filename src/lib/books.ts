@@ -1,6 +1,6 @@
 import { cacheLife } from "next/cache";
 import coverIds from "@/data/book-covers.json";
-import { airtableConfig, listRecords } from "@/lib/airtable";
+import { airtableConfig, env, isBuild, listRecords } from "@/lib/airtable";
 
 export type Book = {
   id: string;
@@ -38,13 +38,27 @@ export async function getBooks(): Promise<Book[]> {
   "use cache";
   cacheLife("hours");
 
-  const tableId = process.env.AIRTABLE_TABLE_ID;
+  const tableId = env("AIRTABLE_TABLE_ID");
   if (!airtableConfig() || !tableId) {
     console.warn("[books] Airtable env vars missing; rendering an empty shelf");
     return [];
   }
 
-  const records = await listRecords<BookFields>(tableId, FIELDS);
+  let records;
+  try {
+    records = await listRecords<BookFields>(tableId, FIELDS);
+  } catch (error) {
+    // At build time an Airtable problem shouldn't take the whole site down:
+    // deploy with an empty shelf and say why. At runtime, rethrow so Next
+    // keeps serving the last good shelf instead of caching an empty one.
+    if (!isBuild()) throw error;
+    console.error(
+      "[books] Airtable request failed during build; deploying with an empty shelf. " +
+        "Check AIRTABLE_TOKEN, AIRTABLE_BASE_ID and AIRTABLE_TABLE_ID in the Vercel project settings.",
+      error,
+    );
+    return [];
+  }
 
   const books = await Promise.all(
     records.map(async ({ id, fields: f }) => {

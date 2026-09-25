@@ -1,4 +1,4 @@
-import { listRecords } from "@/lib/airtable";
+import { env, listRecords } from "@/lib/airtable";
 
 type Attachment = { url: string; thumbnails?: { large?: { url: string } } };
 
@@ -9,7 +9,7 @@ type Attachment = { url: string; thumbnails?: { large?: { url: string } } };
  */
 export async function GET(_request: Request, ctx: RouteContext<"/covers/[id]">) {
   const { id } = await ctx.params;
-  const tableId = process.env.AIRTABLE_TABLE_ID;
+  const tableId = env("AIRTABLE_TABLE_ID");
   if (!/^rec[A-Za-z0-9]{14}$/.test(id) || !tableId) {
     return new Response("Not found", { status: 404 });
   }
