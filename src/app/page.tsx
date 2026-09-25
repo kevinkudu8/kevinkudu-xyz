@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { HoverWord } from "@/components/hover-word";
+import { TiltPortrait } from "@/components/tilt-portrait";
 import heroPortrait from "@/assets/hero-portrait.png";
 import seoulMap from "@/assets/seoul-map.svg";
 // Placeholders cropped from the Figma exports; swap for originals when available
@@ -49,16 +50,17 @@ export default function Home() {
   return (
     <main className="px-gutter flex flex-1 items-center overflow-x-clip py-16 sm:py-24">
       <div className="mx-auto flex w-full max-w-[1320px] flex-col gap-10 sm:flex-row sm:items-center sm:gap-[clamp(2rem,4.9vw,5.875rem)]">
-        <div className="aspect-square w-[min(54vw,200px)] shrink-0 overflow-hidden rounded-[clamp(18px,2.25vw,43px)] lg:w-[clamp(200px,20.25vw,388px)]">
+        <TiltPortrait className="aspect-square w-[min(54vw,200px)] shrink-0 rounded-[clamp(18px,2.25vw,43px)] lg:w-[clamp(200px,20.25vw,388px)]">
           <Image
             src={heroPortrait}
             alt="Portrait of Kevin Kudu"
             placeholder="blur"
-            priority
+            loading="eager"
+            fetchPriority="high"
             sizes="(max-width: 640px) 54vw, 20.25vw"
             className="h-full w-full object-cover object-center"
           />
-        </div>
+        </TiltPortrait>
 
         <p className="min-w-0 max-w-[910px] text-[clamp(1.2375rem,2.06vw,2.475rem)] leading-[2.05] tracking-[0.05em]">
           I create{" "}
