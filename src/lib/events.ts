@@ -15,6 +15,8 @@ export type EventEntry = {
   /** Placeholder details; shows a "Sample content" tag */
   sample: boolean;
   details: { label: string; value: string }[];
+  /** Stages of the work, e.g. Concept → Creative → Production → Reporting */
+  scope: string[];
   stats: { value: string; label: string }[];
   /** "What we built": the pieces of the event */
   parts: { title: string; text: string }[];
@@ -87,6 +89,7 @@ export async function getEvents(): Promise<EventEntry[]> {
           title: meta.title || slug.replace(/-/g, " "),
           featured: meta.featured === "true",
           sample: meta.sample === "true",
+          scope: (meta.scope ?? "").split(";").map((s) => s.trim()).filter(Boolean),
           details: DETAILS.filter(([key]) => meta[key]).map(([key, label]) => ({ label, value: meta[key] })),
           stats: parseStats(meta.stats),
           parts: parseParts(meta.parts),

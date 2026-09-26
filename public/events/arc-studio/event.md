@@ -1,8 +1,8 @@
 ---
-title: Arc Studio
+title: Arc Studio by Circle USDC
 order: 1
 client: Circle
-role: Concept & production
+scope: Concept; Creative; Production; Reporting
 location: Buenos Aires · Denver
 year: 2025
 stats: 113 = Guests; 73 = Developers; 26 = Countries; 2 = Editions

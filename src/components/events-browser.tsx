@@ -134,6 +134,22 @@ function EventDetail({ event }: { event: EventEntry }) {
         </dl>
       )}
 
+      {event.scope.length > 0 && (
+        <p className="mt-3 flex flex-wrap items-center gap-x-2 gap-y-1 font-mono text-[0.65rem] tracking-[0.08em] uppercase">
+          <span className="mr-1 text-muted">Scope</span>
+          {event.scope.map((stage, i) => (
+            <span key={stage} className="flex items-center gap-2">
+              {i > 0 && (
+                <span aria-hidden className="text-[#ff4f1f]">
+                  →
+                </span>
+              )}
+              {stage}
+            </span>
+          ))}
+        </p>
+      )}
+
       <div className="relative mt-8 aspect-[16/9] overflow-hidden bg-highlight">
         {event.loop ? (
           <HeroLoop src={event.loop} poster={event.poster} />
