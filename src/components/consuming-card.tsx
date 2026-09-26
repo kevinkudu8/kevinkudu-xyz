@@ -18,17 +18,17 @@ export function ConsumingCard() {
   return (
     <span className="absolute inset-0 overflow-hidden bg-[#f4f3ef]">
       {/* Stoner, underneath */}
-      <span className="absolute top-[5%] left-[29%] z-10 w-[22%] rotate-[-14deg] shadow-[0_6px_12px_-5px_rgb(0_0_0/0.45)]">
+      <span className="absolute top-[12%] left-[29%] z-10 w-[22%] rotate-[-14deg] shadow-[0_6px_12px_-5px_rgb(0_0_0/0.45)]">
         <Image src={stoner} alt="" sizes="5rem" className="block h-auto w-full" />
       </span>
 
       {/* Parasite poster */}
-      <span className="absolute top-[3%] left-[45%] z-20 w-[22%] rotate-[11deg] shadow-[0_6px_12px_-5px_rgb(0_0_0/0.45)]">
+      <span className="absolute top-[10%] left-[45%] z-20 w-[22%] rotate-[11deg] shadow-[0_6px_12px_-5px_rgb(0_0_0/0.45)]">
         <Image src={parasite} alt="" sizes="5rem" className="block h-auto w-full" />
       </span>
 
       {/* Boarding pass */}
-      <span className="absolute top-[40%] left-[12%] z-30 w-[42%] rotate-[-8deg] rounded-[4px] bg-white p-[5px] shadow-[0_5px_12px_-4px_rgb(0_0_0/0.4)]">
+      <span className="absolute top-[47%] left-[12%] z-30 w-[42%] rotate-[-8deg] rounded-[4px] bg-white p-[5px] shadow-[0_5px_12px_-4px_rgb(0_0_0/0.4)]">
         <span className={`${mono} flex items-center justify-between text-[5px] text-muted`}>
           <span>From</span>
           <span>✈</span>
@@ -51,7 +51,7 @@ export function ConsumingCard() {
       </span>
 
       {/* Run badge */}
-      <span className="absolute top-[46%] left-[46%] z-40 flex w-[33%] rotate-[5deg] flex-col rounded-[5px] bg-[#a79dfe] p-[6px] shadow-[0_6px_14px_-4px_rgb(0_0_0/0.45)]">
+      <span className="absolute top-[53%] left-[46%] z-40 flex w-[33%] rotate-[5deg] flex-col rounded-[5px] bg-[#a79dfe] p-[6px] shadow-[0_6px_14px_-4px_rgb(0_0_0/0.45)]">
         <span className={`${mono} text-[5px] text-foreground/70`}>Purple level</span>
         <span className="mt-[3px] text-[15px] leading-none font-black tracking-[-0.03em] text-foreground italic">4,289</span>
         <span className={`${mono} mt-[2px] text-[5px] text-foreground`}>Total km</span>
