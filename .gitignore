@@ -54,3 +54,6 @@ next-env.d.ts
 
 # home photo originals (the site uses a cropped copy in src/assets)
 /design/Home_image*
+
+# ETHGlobal raw photos (the site uses resized copies)
+/design/ETHGlobal Portfolio*/

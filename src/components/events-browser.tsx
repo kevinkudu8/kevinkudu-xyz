@@ -92,11 +92,11 @@ function HeroLoop({ src, poster }: { src: string; poster: string | null }) {
 const ORANGE = "#ff4f1f";
 
 /** Every activation in a program, one row each; rows with a photo show it on hover. */
-function Timeline({ items }: { items: TimelineItem[] }) {
+function Timeline({ items, label }: { items: TimelineItem[]; label: string | null }) {
   return (
     <section aria-label="Timeline" className="mt-14">
       <h3 className="font-mono text-[0.6rem] tracking-[0.1em] text-muted uppercase">
-        Timeline · {items.length} activations
+        {label ?? `Timeline · ${items.length} activations`}
       </h3>
       <ol className="mt-5 border-t border-foreground/15">
         {items.map((item, i) => (
@@ -108,7 +108,14 @@ function Timeline({ items }: { items: TimelineItem[] }) {
             <span className="hidden font-mono text-[0.62rem] tracking-[0.06em] uppercase sm:block">{item.date}</span>
             <div className="min-w-0">
               <p className="flex flex-wrap items-baseline gap-x-2 text-[0.95rem] leading-snug">
-                {item.title}
+                {item.link ? (
+                  <a href={item.link} target="_blank" rel="noreferrer" className="underline decoration-foreground/25 underline-offset-4 hover:decoration-foreground">
+                    {item.title}
+                  </a>
+                ) : (
+                  item.title
+                )}
+                {item.link && <span className="font-mono text-[0.58rem] tracking-[0.08em] text-muted uppercase">Recap ↗</span>}
                 {item.image && (
                   <span aria-hidden className="size-1.5 translate-y-[-0.1em] self-center rounded-full" style={{ backgroundColor: ORANGE }} />
                 )}
@@ -298,7 +305,7 @@ function EventDetail({ event }: { event: EventEntry }) {
         </div>
       )}
 
-      {event.timeline.length > 0 && <Timeline items={event.timeline} />}
+      {event.timeline.length > 0 && <Timeline items={event.timeline} label={event.timelineLabel} />}
       {event.spotlight && <SpotlightSection spotlight={event.spotlight} />}
 
       {event.parts.length > 0 && (

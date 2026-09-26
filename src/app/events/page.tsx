@@ -5,7 +5,7 @@ import { eventsVersion, getEvents } from "@/lib/events";
 export const metadata: Metadata = { title: "Events" };
 
 const INTRO =
-  "Physical spaces around the globe, designed to help brands connect with the people who keep them relevant.";
+  "Physical spaces around the globe, where brands meet the people they're built for.";
 
 export default async function EventsPage() {
   return (

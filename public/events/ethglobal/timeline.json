@@ -1,0 +1,12 @@
+{
+  "label": "Highlights",
+  "items": [
+    { "date": "Aug 19–21, 2022", "format": "Hackathon", "place": "Mexico City", "title": "ETHMexico", "detail": "ETHGlobal's return to Latin America, in a courtyard under a giant mural.", "image": "02.jpg" },
+    { "date": "Oct 7–9, 2022", "format": "Hackathon", "place": "Bogotá", "title": "ETHBogotá", "detail": "Hackathon ahead of Devcon in Colombia.", "link": "https://youtu.be/TUDtjX-djro" },
+    { "date": "Dec 2–4, 2022", "format": "Hackathon", "place": "Bengaluru", "title": "ETHIndia 2022", "detail": "Asia's biggest Ethereum hackathon.", "image": "08.jpg", "link": "https://youtu.be/U6LDMJ2pdvk" },
+    { "date": "Apr 13–16, 2023", "format": "Pragma + hackathon", "place": "Tokyo", "title": "Pragma & ETHGlobal Tokyo", "detail": "A conference day, a café and a hackathon in one week.", "image": "04.jpg", "link": "https://youtu.be/cWkIKxwHjY0" },
+    { "date": "May 11–14, 2023", "format": "Pragma + hackathon", "place": "Lisbon", "title": "Pragma & ETHGlobal Lisbon", "detail": "Pragma in a gilded ballroom, the hackathon in a vaulted hall.", "image": "06.jpg", "link": "https://youtu.be/96_OCaFqQTg" },
+    { "date": "Jun 22–25, 2023", "format": "Pragma + hackathon", "place": "Waterloo", "title": "Pragma & ETHGlobal Waterloo", "detail": "Including a fireside chat with Vitalik Buterin.", "image": "07.jpg", "link": "https://youtu.be/y2SfT8ugjCk" },
+    { "date": "Jul 20–23, 2023", "format": "Pragma + hackathon", "place": "Paris", "title": "Pragma & ETHGlobal Paris", "detail": "Pragma, a café and a hackathon during EthCC week.", "image": "05.jpg", "link": "https://youtu.be/mxsNhYCSJcI" }
+  ]
+}

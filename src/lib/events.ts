@@ -29,6 +29,7 @@ export type EventEntry = {
   film: string | null;
   /** Optional timeline.json: every activation in a long-running program */
   timeline: TimelineItem[];
+  timelineLabel: string | null;
   /** Optional spotlight.json: one piece of work told step by step */
   spotlight: Spotlight | null;
 };
@@ -40,6 +41,8 @@ export type TimelineItem = {
   title: string;
   detail: string;
   image: { src: string; width: number; height: number } | null;
+  /** e.g. the recap film */
+  link: string | null;
 };
 
 export type Spotlight = {
@@ -143,9 +146,20 @@ export async function getEvents(version: string): Promise<EventEntry[]> {
           loop: existsSync(join(dir, "loop.mp4")) ? `/events/${slug}/loop.mp4` : null,
           poster: existsSync(join(dir, "poster.jpg")) ? `/events/${slug}/poster.jpg` : null,
           film: existsSync(join(dir, "film.mp4")) ? `/events/${slug}/film.mp4` : null,
-          timeline: (readJson<(Omit<TimelineItem, "image"> & { image?: string })[]>(join(dir, "timeline.json")) ?? []).map(
-            (item) => ({ ...item, image: item.image ? { src: `/events/${slug}/${item.image}`, ...imageSize(join(dir, item.image)) } : null }),
-          ),
+          ...(() => {
+            // timeline.json is a list of items, or { label, items }
+            type RawItem = Omit<TimelineItem, "image" | "link"> & { image?: string; link?: string };
+            const raw = readJson<RawItem[] | { label?: string; items: RawItem[] }>(join(dir, "timeline.json"));
+            const items = Array.isArray(raw) ? raw : (raw?.items ?? []);
+            return {
+              timelineLabel: Array.isArray(raw) ? null : (raw?.label ?? null),
+              timeline: items.map((item) => ({
+                ...item,
+                image: item.image ? { src: `/events/${slug}/${item.image}`, ...imageSize(join(dir, item.image)) } : null,
+                link: item.link ?? null,
+              })),
+            };
+          })(),
           spotlight: (() => {
             const raw = readJson<Omit<Spotlight, "images"> & { images?: string[] }>(join(dir, "spotlight.json"));
             return raw
