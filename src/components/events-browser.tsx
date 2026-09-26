@@ -115,7 +115,7 @@ function Timeline({ items, label }: { items: TimelineItem[]; label: string | nul
                 ) : (
                   item.title
                 )}
-                {item.link && <span className="font-mono text-[0.58rem] tracking-[0.08em] text-muted uppercase">Recap ↗</span>}
+                {item.link && <span className="font-mono text-[0.58rem] tracking-[0.08em] text-muted uppercase">Watch ↗</span>}
                 {item.image && (
                   <span aria-hidden className="size-1.5 translate-y-[-0.1em] self-center rounded-full" style={{ backgroundColor: ORANGE }} />
                 )}
