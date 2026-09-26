@@ -7,7 +7,6 @@ import { youtubeEmbed, youtubeThumb } from "@/lib/youtube";
 export type Commissioned = {
   intro: string;
   stats: { value: string; label: string }[];
-  clients: string[];
   groups: {
     title: string;
     text: string;
@@ -39,10 +38,6 @@ export function CommissionedWork({ data }: { data: Commissioned }) {
         ))}
       </dl>
 
-      <p className="mt-10 font-mono text-[0.62rem] leading-[2] tracking-[0.1em] text-muted uppercase">
-        <span className="mr-3 text-foreground">Clients</span>
-        {data.clients.join("  ·  ")}
-      </p>
 
       <div className="mt-16 space-y-16">
         {data.groups.map((group, g) => (
