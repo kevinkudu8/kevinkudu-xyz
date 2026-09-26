@@ -1,0 +1,15 @@
+[
+  { "date": "Feb 2024", "format": "Happy hour", "place": "Denver", "title": "ETHDenver happy hour", "detail": "The first PYUSD happy hour of the program." },
+  { "date": "May 31, 2024", "format": "Happy hour", "place": "Austin", "title": "Consensus happy hour", "detail": "300 confirmed guests." },
+  { "date": "Aug 23, 2024", "format": "Build day", "place": "San Jose", "title": "PYUSD Build Day", "detail": "150 builders at PayPal's head office." },
+  { "date": "2024", "format": "Hackathons", "place": "New York · India · Online", "title": "ETHGlobal sponsorships", "detail": "NYC, India and ETHOnline: 128+ projects built with PYUSD." },
+  { "date": "Sep 18–20, 2024", "format": "Executive dinner", "place": "Singapore", "title": "Executive food tour", "detail": "Token2049 and Breakpoint guests paying hawkers in PYUSD.", "image": "02.jpg" },
+  { "date": "Sep 18–20, 2024", "format": "Sponsorship", "place": "Singapore", "title": "Solana Breakpoint Learning Pod", "detail": "4 learning sessions and an executive meet-and-greet.", "image": "06.jpg" },
+  { "date": "Oct 30, 2024", "format": "Brunch & party", "place": "Las Vegas", "title": "Money20/20", "detail": "Innovation in Payments brunch, then a launch celebration with Crypto.com and Venmo for 350 guests." },
+  { "date": "Nov 13, 2024", "format": "Launch event", "place": "Bangkok", "title": "LayerZero × PYUSD launch", "detail": "350 guests during Devcon." },
+  { "date": "Feb 27, 2025", "format": "Happy hour", "place": "Denver", "title": "ETHDenver with Google Cloud", "detail": "A full venue buyout after the previous year's success." },
+  { "date": "Mar 7, 2025", "format": "Bounty program", "place": "Online", "title": "PYUSD × Google Cloud bounties", "detail": "A month-long online build program." },
+  { "date": "Jun 26, 2025", "format": "Meetup", "place": "New York", "title": "Permissionless IV community meetup", "detail": "Co-sponsored with Google Cloud." },
+  { "date": "Jun 27, 2025", "format": "Webinars", "place": "Online", "title": "Google Cloud webinar series", "detail": "Biweekly sessions with Google Cloud teams." },
+  { "date": "Oct 8, 2025", "format": "Webinars", "place": "Online", "title": "Stable Club webinar series", "detail": "With LayerZero, Google Cloud, Arbitrum, QuickNode and Stellar.", "image": "10.jpg" }
+]

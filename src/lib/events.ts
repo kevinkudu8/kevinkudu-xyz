@@ -27,7 +27,30 @@ export type EventEntry = {
   poster: string | null;
   /** The full film, played on request */
   film: string | null;
+  /** Optional timeline.json: every activation in a long-running program */
+  timeline: TimelineItem[];
+  /** Optional spotlight.json: one piece of work told step by step */
+  spotlight: Spotlight | null;
 };
+
+export type TimelineItem = {
+  date: string;
+  format: string;
+  place: string;
+  title: string;
+  detail: string;
+  image: { src: string; width: number; height: number } | null;
+};
+
+export type Spotlight = {
+  label: string;
+  title: string;
+  text: string;
+  steps: { title: string; text: string }[];
+  images: { src: string; width: number; height: number }[];
+};
+
+const readJson = <T,>(path: string): T | null => (existsSync(path) ? (JSON.parse(readFileSync(path, "utf8")) as T) : null);
 
 const DETAILS = [
   ["client", "Client"],
@@ -120,6 +143,15 @@ export async function getEvents(version: string): Promise<EventEntry[]> {
           loop: existsSync(join(dir, "loop.mp4")) ? `/events/${slug}/loop.mp4` : null,
           poster: existsSync(join(dir, "poster.jpg")) ? `/events/${slug}/poster.jpg` : null,
           film: existsSync(join(dir, "film.mp4")) ? `/events/${slug}/film.mp4` : null,
+          timeline: (readJson<(Omit<TimelineItem, "image"> & { image?: string })[]>(join(dir, "timeline.json")) ?? []).map(
+            (item) => ({ ...item, image: item.image ? { src: `/events/${slug}/${item.image}`, ...imageSize(join(dir, item.image)) } : null }),
+          ),
+          spotlight: (() => {
+            const raw = readJson<Omit<Spotlight, "images"> & { images?: string[] }>(join(dir, "spotlight.json"));
+            return raw
+              ? { ...raw, images: (raw.images ?? []).map((f) => ({ src: `/events/${slug}/${f}`, ...imageSize(join(dir, f)) })) }
+              : null;
+          })(),
         },
       };
     })

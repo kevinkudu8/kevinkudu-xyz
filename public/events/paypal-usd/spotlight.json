@@ -1,0 +1,11 @@
+{
+  "label": "Spotlight · Singapore",
+  "title": "Paying hawkers in PYUSD",
+  "text": "For the executive food tour we built a working payment flow with the Solana Pay team, powered by Venta. Every vendor on the route was onboarded ahead of time, so guests settled their plates and tips in stablecoin on the spot.",
+  "steps": [
+    { "title": "Airdrop", "text": "Guests arrive with PYUSD sent to their wallet on Solana." },
+    { "title": "Tap to pay", "text": "They order at a hawker stall and pay with a Solana Pay code on a Venta terminal." },
+    { "title": "Payout", "text": "Vendors are paid out in crypto or local currency, their choice." }
+  ],
+  "images": ["05.jpg", "04.jpg"]
+}

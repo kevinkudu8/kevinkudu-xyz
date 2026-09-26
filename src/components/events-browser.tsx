@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useEffect, useRef, useState, useSyncExternalStore, type KeyboardEvent } from "react";
-import type { EventEntry } from "@/lib/events";
+import type { EventEntry, Spotlight, TimelineItem } from "@/lib/events";
 
 const subscribe = (onChange: () => void) => {
   window.addEventListener("hashchange", onChange);
@@ -89,13 +89,108 @@ function HeroLoop({ src, poster }: { src: string; poster: string | null }) {
   );
 }
 
+const ORANGE = "#ff4f1f";
+
+/** Every activation in a program, one row each; rows with a photo show it on hover. */
+function Timeline({ items }: { items: TimelineItem[] }) {
+  return (
+    <section aria-label="Timeline" className="mt-14">
+      <h3 className="font-mono text-[0.6rem] tracking-[0.1em] text-muted uppercase">
+        Timeline · {items.length} activations
+      </h3>
+      <ol className="mt-5 border-t border-foreground/15">
+        {items.map((item, i) => (
+          <li
+            key={`${item.date}-${item.title}`}
+            className="group relative grid grid-cols-[2rem_1fr] gap-x-3 border-b border-foreground/15 py-4 sm:grid-cols-[2rem_7.5rem_1fr_auto] sm:gap-x-5"
+          >
+            <span className="font-mono text-[0.6rem] tracking-[0.08em] text-muted">{String(i + 1).padStart(2, "0")}</span>
+            <span className="hidden font-mono text-[0.62rem] tracking-[0.06em] uppercase sm:block">{item.date}</span>
+            <div className="min-w-0">
+              <p className="flex flex-wrap items-baseline gap-x-2 text-[0.95rem] leading-snug">
+                {item.title}
+                {item.image && (
+                  <span aria-hidden className="size-1.5 translate-y-[-0.1em] self-center rounded-full" style={{ backgroundColor: ORANGE }} />
+                )}
+              </p>
+              <p className="mt-1 text-sm leading-relaxed text-muted">{item.detail}</p>
+              <p className="mt-1.5 font-mono text-[0.58rem] tracking-[0.08em] text-muted uppercase sm:hidden">
+                {item.date} · {item.format} · {item.place}
+              </p>
+            </div>
+            <div className="hidden text-right font-mono text-[0.58rem] leading-relaxed tracking-[0.08em] text-muted uppercase sm:block">
+              <p>{item.format}</p>
+              <p>{item.place}</p>
+            </div>
+            {item.image && (
+              <span className="pointer-events-none absolute top-1/2 right-[calc(100%+1.5rem)] z-10 hidden w-56 -translate-y-1/2 scale-95 overflow-hidden rounded-[6px] opacity-0 shadow-[0_18px_40px_-18px_rgb(0_0_0/0.5)] transition-[opacity,scale] duration-300 group-hover:scale-100 group-hover:opacity-100 xl:block">
+                <Image src={item.image.src} alt="" width={item.image.width} height={item.image.height} sizes="14rem" className="h-auto w-full" />
+              </span>
+            )}
+          </li>
+        ))}
+      </ol>
+    </section>
+  );
+}
+
+/** One piece of work told as numbered steps, with supporting images. */
+function SpotlightSection({ spotlight }: { spotlight: Spotlight }) {
+  return (
+    <section aria-label={spotlight.title} className="mt-16 rounded-[14px] border border-foreground/12 p-6 sm:p-8">
+      <p className="font-mono text-[0.6rem] tracking-[0.1em] text-muted uppercase">{spotlight.label}</p>
+      <h3 className="mt-3 text-[clamp(1.5rem,2.4vw,2.1rem)] leading-tight tracking-[-0.01em]">{spotlight.title}</h3>
+      <p className="mt-4 max-w-[60ch] text-[0.95rem] leading-[1.7]">{spotlight.text}</p>
+
+      <ol className="mt-8 grid gap-4 sm:grid-cols-3 sm:gap-0">
+        {spotlight.steps.map((step, i) => (
+          <li key={step.title} className="relative sm:pr-10">
+            <span
+              className="grid size-9 place-items-center rounded-full font-mono text-[0.7rem] text-white"
+              style={{ backgroundColor: ORANGE }}
+            >
+              {i + 1}
+            </span>
+            {i < spotlight.steps.length - 1 && (
+              <span aria-hidden className="absolute top-[1.125rem] right-4 left-12 hidden h-px bg-foreground/25 sm:block">
+                <span className="absolute -top-[0.3rem] -right-1 text-[0.6rem] leading-none" style={{ color: ORANGE }}>
+                  ▶
+                </span>
+              </span>
+            )}
+            <p className="mt-3 text-base">{step.title}</p>
+            <p className="mt-1 text-sm leading-relaxed text-muted">{step.text}</p>
+          </li>
+        ))}
+      </ol>
+
+      {spotlight.images.length > 0 && (
+        <div className="mt-8 grid grid-cols-2 items-start gap-3">
+          {spotlight.images.map((img) => (
+            <Image
+              key={img.src}
+              src={img.src}
+              alt=""
+              width={img.width}
+              height={img.height}
+              sizes="(max-width: 640px) 50vw, 30vw"
+              className="h-auto w-full rounded-[4px]"
+            />
+          ))}
+        </div>
+      )}
+    </section>
+  );
+}
+
 function EventDetail({ event }: { event: EventEntry }) {
   const dialogRef = useRef<HTMLDialogElement>(null);
   const [viewing, setViewing] = useState<number | "film">(0);
   // With a loop up top, every photo goes in the gallery; otherwise the first photo is the hero
   const heroImage = event.loop ? null : event.images[0];
-  const gallery = event.loop ? event.images : event.images.slice(1);
-  const galleryOffset = event.loop ? 0 : 1;
+  // Photos already shown in the spotlight aren't repeated in the gallery
+  const inSpotlight = new Set(event.spotlight?.images.map((img) => img.src));
+  const gallery = (event.loop ? event.images : event.images.slice(1)).filter((img) => !inSpotlight.has(img.src));
 
   function open(target: number | "film") {
     setViewing(target);
@@ -203,6 +298,9 @@ function EventDetail({ event }: { event: EventEntry }) {
         </div>
       )}
 
+      {event.timeline.length > 0 && <Timeline items={event.timeline} />}
+      {event.spotlight && <SpotlightSection spotlight={event.spotlight} />}
+
       {event.parts.length > 0 && (
         <section aria-label="What we built" className="mt-14">
           <h3 className="font-mono text-[0.6rem] tracking-[0.1em] text-muted uppercase">What we built</h3>
@@ -229,8 +327,8 @@ function EventDetail({ event }: { event: EventEntry }) {
             <li key={img.src} className="mb-3 break-inside-avoid">
               <button
                 type="button"
-                onClick={() => open(i + galleryOffset)}
-                aria-label={`View image ${i + galleryOffset + 1} full screen`}
+                onClick={() => open(event.images.indexOf(img))}
+                aria-label={`View image ${event.images.indexOf(img) + 1} full screen`}
                 className="group block w-full overflow-hidden bg-highlight"
               >
                 <Image

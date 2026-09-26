@@ -3,12 +3,11 @@ title: PayPal USD
 order: 4
 client: PayPal
 scope: Concept; Creative; Production; Reporting
-location: Singapore · New York · India
+location: US · Asia · Online
 year: 2024–2026
-stats: 40 = Executive guests; 1,500+ = Breakpoint attendees; 10 = Webinars; 128+ = Hackathon projects
-parts: Executive food tour, Singapore = 40 crypto and fintech leaders over two nights through Maxwell and Lau Pa Sat hawker centres and a speakeasy. Guests were airdropped PYUSD on Solana and tipped vendors in stablecoins in real time, with every vendor onboarded to a wallet beforehand.; Learning Pod, Solana Breakpoint = Three sessions a day for three days, each pre-registered session filled to its 50-person cap. Live demos, executive meet-and-greets, and PYUSD and swag for 1,500+ attendees through Solana Pay.; Stable Club webinars = Ten sessions over six months with LayerZero, Google Cloud, Stellar and Arbitrum, averaging 1,500+ views per session, live and on replay.; ETHGlobal hackathons = New York, India and online. 128+ projects built with PYUSD, $20K in PayPal bounties matched by $90K+ from other sponsors, and PYUSD the most-used protocol at ETHGlobal India.
+stats: 2 = Years; 13 = Activations; 1,000+ = Guests hosted; 128+ = Hackathon projects
 ---
 
-Over two years I ran a multi-format event program for PayPal's stablecoin, PYUSD: executive experiences, conference sponsorships, developer hackathons and a recurring digital series.
+Over two years I ran PayPal's event program for its stablecoin, PYUSD: happy hours and launch parties, conference sponsorships, a build day at PayPal's head office, hackathons, bounty programs and two webinar series, across the US, Asia and online.
 
-The through-line was making PYUSD tangible, putting the product in people's hands rather than on a slide, and meeting three very different audiences where they already were: institutional partners over dinner, developers at hackathons, and the wider crypto community online.
+The through-line was making PYUSD tangible, putting the product in people's hands rather than on a slide, and meeting three very different audiences where they already were: partners and executives over dinner, developers at hackathons, and the wider crypto community online. Several of the partnerships, like Google Cloud, came back year after year.
