@@ -72,7 +72,7 @@ export function RunMap() {
   return (
     <div
       ref={boxRef}
-      className="relative mt-12 aspect-[16/10] overflow-hidden rounded-[14px] border border-foreground/10 bg-[#ecece9]"
+      className="light-surface relative mt-12 aspect-[16/10] overflow-hidden rounded-[14px] border border-foreground/10 bg-[#ecece9]"
     >
       <Image src={mapImage} alt="" fill unoptimized className="object-cover" />
       <svg viewBox={`0 0 ${route.width} ${route.height}`} className="absolute inset-0 h-full w-full" aria-hidden>

@@ -1,5 +1,8 @@
 @import "tailwindcss";
 
+/* `dark:` utilities follow the toggle (data-theme on <html>), not just the OS */
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
 :root {
   /* Sampled from design/homehero.png */
   --background: #f7f7f7;
@@ -7,6 +10,27 @@
   --highlight: #d9d9d9;
   --muted: #6b6b6b;
   --rule: #d4d4d4;
+  --land: #e2e2e0;
+  color-scheme: light;
+}
+
+/* Dark mode, sampled from the GTHR reference: near-black with a green cast */
+:root[data-theme="dark"] {
+  --background: #0b0d0b;
+  --foreground: #eef0ea;
+  --highlight: #252c22;
+  --muted: #8a9086;
+  --rule: #2a3027;
+  --land: #20261e;
+  color-scheme: dark;
+}
+
+/* Objects that are light in the real world (tickets, maps) keep light-mode ink */
+.light-surface {
+  --background: #f7f7f7;
+  --foreground: #0f0f0f;
+  --muted: #6b6b6b;
+  color: var(--foreground);
 }
 
 @theme inline {
@@ -15,6 +39,7 @@
   --color-highlight: var(--highlight);
   --color-muted: var(--muted);
   --color-rule: var(--rule);
+  --color-land: var(--land);
 
   /* SF Pro / SF Mono on Apple devices, sensible fallbacks elsewhere */
   --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
@@ -27,6 +52,7 @@
 
 body {
   background: var(--background);
+  transition: background-color 0.3s ease, color 0.3s ease;
   color: var(--foreground);
   font-family: var(--font-sans);
 }
@@ -94,4 +120,12 @@ mark {
   from {
     opacity: 0;
   }
+}
+
+/* A faint green glow behind the page in dark mode, like the reference */
+:root[data-theme="dark"] body {
+  background:
+    radial-gradient(60vw 70vh at 78% 35%, rgb(90 130 70 / 0.16), transparent 70%),
+    var(--background);
+  background-attachment: fixed;
 }

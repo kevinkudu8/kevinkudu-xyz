@@ -8,7 +8,7 @@ export function TravelMap() {
     <div className="relative mt-12">
       <svg viewBox={`0 0 ${width} ${height}`} className="block h-auto w-full" aria-hidden>
         {countries.map((d, i) => (
-          <path key={i} d={d} fill="#e2e2e0" stroke="var(--background)" strokeWidth={0.6} />
+          <path key={i} d={d} fill="var(--land)" stroke="var(--background)" strokeWidth={0.6} />
         ))}
       </svg>
 

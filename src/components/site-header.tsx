@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
+import { ThemeToggle } from "@/components/theme-toggle";
 
 const links = [
   { href: "/events", label: "Events" },
@@ -49,6 +50,9 @@ export function SiteHeader() {
               </HeaderLink>
             </li>
           ))}
+          <li className="ml-2 sm:ml-1">
+            <ThemeToggle />
+          </li>
         </ul>
       </nav>
     </header>

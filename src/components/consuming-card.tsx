@@ -16,7 +16,7 @@ const Bars = ({ className }: { className?: string }) => (
 /** A flat-lay of things consumed: a book, a film, a boarding pass and a run badge, piled up. */
 export function ConsumingCard() {
   return (
-    <span className="absolute inset-0 overflow-hidden bg-[#f4f3ef]">
+    <span className="light-surface absolute inset-0 overflow-hidden bg-[#f4f3ef]">
       {/* Stoner, underneath */}
       <span className="absolute top-[12%] left-[29%] z-10 w-[22%] rotate-[-14deg] shadow-[0_6px_12px_-5px_rgb(0_0_0/0.45)]">
         <Image src={stoner} alt="" sizes="5rem" className="block h-auto w-full" />
