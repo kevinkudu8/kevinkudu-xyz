@@ -5,8 +5,7 @@ import heroPortrait from "@/assets/hero-portrait.png";
 import seoulCardImage from "@/assets/card-seoul.jpg";
 import eventsCardImage from "@/assets/card-events.jpg";
 import contentCardImage from "@/assets/card-content.jpg";
-import { getBooks } from "@/lib/books";
-import { getFilms } from "@/lib/films";
+import { ConsumingCard } from "@/components/consuming-card";
 
 const previously = [
   { name: "Serotonin", href: "https://serotonin.co" },
@@ -20,30 +19,7 @@ const contentCard = <Image src={contentCardImage} alt="" fill sizes="20rem" clas
 
 const seoulCard = <Image src={seoulCardImage} alt="" fill sizes="20rem" className="object-cover" />;
 
-/** Favourite books and five-star films, as covers on a shelf. */
-function consumingCard(covers: string[]) {
-  return (
-    <span className="absolute inset-0 grid grid-cols-4 items-center gap-2.5 bg-[#f1efe6] px-5">
-      {covers.map((src, i) => (
-        <span
-          key={src}
-          className="relative aspect-[2/3] w-full overflow-hidden rounded-[2px] shadow-[0_8px_16px_-8px_rgb(0_0_0/0.45)]"
-          style={{ transform: `rotate(${[-4, 2, -2, 4][i % 4]}deg)` }}
-        >
-          <Image src={src} alt="" fill unoptimized className="object-cover" />
-        </span>
-      ))}
-    </span>
-  );
-}
-
-export default async function Home() {
-  const [books, films] = await Promise.all([getBooks(), getFilms()]);
-  // Two favourite books and two five-star films, newest first
-  const covers = [
-    ...books.filter((b) => b.favourite && b.cover && !b.cover.startsWith("/covers/")).slice(0, 2).map((b) => b.cover!),
-    ...films.filter((f) => f.rating === 5 && f.poster).slice(0, 2).map((f) => f.poster!),
-  ];
+export default function Home() {
 
   return (
     <main className="px-gutter flex flex-1 items-center overflow-x-clip py-16 sm:py-24">
@@ -72,7 +48,7 @@ export default async function Home() {
           </HoverWord>{" "}
           for tech and web3 companies. Currently living in{" "}
           <HoverWord card={seoulCard}>Seoul 🇰🇷</HoverWord>. I love{" "}
-          <HoverWord href="/my-life" card={consumingCard(covers)}>
+          <HoverWord href="/my-life" card={<ConsumingCard />}>
             consuming
           </HoverWord>{" "}
           books 📚, movies 🍿 and traveling 🗺️
