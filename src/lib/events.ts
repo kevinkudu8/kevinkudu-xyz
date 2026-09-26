@@ -69,10 +69,29 @@ function imageSize(path: string): { width: number; height: number } {
   return { width: 16, height: 9 };
 }
 
-// Cached: the folders only change on deploy, and caching keeps file reads out of each render
-export async function getEvents(): Promise<EventEntry[]> {
+/**
+ * A fingerprint of the events folder (file names and modified times). Passed to
+ * getEvents so the cache is keyed on the content: edit a file and it rebuilds.
+ */
+export function eventsVersion(): string {
+  let latest = 0;
+  let count = 0;
+  for (const slug of readdirSync(ROOT)) {
+    const dir = join(ROOT, slug);
+    if (!statSync(dir).isDirectory()) continue;
+    for (const file of readdirSync(dir)) {
+      latest = Math.max(latest, statSync(join(dir, file)).mtimeMs);
+      count++;
+    }
+  }
+  return `${count}:${latest}`;
+}
+
+// Cached (keyed on the folder's fingerprint) so file reads stay out of each render
+export async function getEvents(version: string): Promise<EventEntry[]> {
   "use cache";
   cacheLife("max");
+  void version;
 
   const folders = readdirSync(ROOT).filter((name) => statSync(join(ROOT, name)).isDirectory());
 

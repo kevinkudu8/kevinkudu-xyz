@@ -208,7 +208,11 @@ function EventDetail({ event }: { event: EventEntry }) {
           <h3 className="font-mono text-[0.6rem] tracking-[0.1em] text-muted uppercase">What we built</h3>
           <ol className="mt-5 grid gap-px overflow-hidden rounded-[10px] border border-foreground/12 bg-foreground/12 sm:grid-cols-2">
             {event.parts.map((part, i) => (
-              <li key={part.title} className="bg-background p-5">
+              // With an odd count, the last part spans the row so no empty cell shows
+              <li
+                key={part.title}
+                className={`bg-background p-5 ${event.parts.length % 2 === 1 && i === event.parts.length - 1 ? "sm:col-span-2" : ""}`}
+              >
                 <p className="font-mono text-[0.6rem] tracking-[0.08em] text-muted">({String(i + 1).padStart(2, "0")})</p>
                 <p className="mt-2 text-base">{part.title}</p>
                 <p className="mt-1.5 text-sm leading-relaxed text-muted">{part.text}</p>

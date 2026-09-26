@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { EventsBrowser } from "@/components/events-browser";
-import { getEvents } from "@/lib/events";
+import { eventsVersion, getEvents } from "@/lib/events";
 
 export const metadata: Metadata = { title: "Events" };
 
@@ -10,7 +10,7 @@ const INTRO =
 export default async function EventsPage() {
   return (
     <main className="px-gutter flex-1 py-16 sm:py-24">
-      <EventsBrowser events={await getEvents()} intro={INTRO} />
+      <EventsBrowser events={await getEvents(eventsVersion())} intro={INTRO} />
     </main>
   );
 }

@@ -1,5 +1,5 @@
 ---
-title: Robinhood at Bitcoin 2025
+title: Robinhood at BTC 2025
 order: 3
 client: Robinhood
 scope: Concept; Creative; Production; Reporting
