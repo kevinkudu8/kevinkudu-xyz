@@ -2,7 +2,9 @@ import Image from "next/image";
 import { HoverWord } from "@/components/hover-word";
 import { TiltPortrait } from "@/components/tilt-portrait";
 import heroPortrait from "@/assets/hero-portrait.png";
-import seoulMap from "@/assets/seoul-map.svg";
+import seoulCardImage from "@/assets/card-seoul.jpg";
+import eventsCardImage from "@/assets/card-events.jpg";
+import contentCardImage from "@/assets/card-content.jpg";
 import { getBooks } from "@/lib/books";
 import { getFilms } from "@/lib/films";
 
@@ -12,28 +14,11 @@ const previously = [
   { name: "ETHGlobal", href: "https://ethglobal.com" },
 ];
 
-// The three films on the Content page, in order
-const filmPosters = [
-  "/content/timeless-legacy/poster.jpg",
-  "/content/low-tide/poster.jpg",
-  "/content/which-one-of-us-are-you/poster.jpg",
-];
+const eventsCard = <Image src={eventsCardImage} alt="" fill sizes="20rem" className="object-cover" />;
 
-const eventsCard = (
-  <Image src="/events/arc-studio/01.jpg" alt="" fill sizes="20rem" className="object-cover" />
-);
+const contentCard = <Image src={contentCardImage} alt="" fill sizes="20rem" className="object-cover" />;
 
-const contentCard = (
-  <span className="absolute inset-0 grid grid-cols-3 gap-0.5 bg-foreground">
-    {filmPosters.map((src) => (
-      <span key={src} className="relative">
-        <Image src={src} alt="" fill sizes="7rem" className="object-cover" />
-      </span>
-    ))}
-  </span>
-);
-
-const seoulCard = <Image src={seoulMap} alt="" fill unoptimized className="object-cover" />;
+const seoulCard = <Image src={seoulCardImage} alt="" fill sizes="20rem" className="object-cover" />;
 
 /** Favourite books and five-star films, as covers on a shelf. */
 function consumingCard(covers: string[]) {

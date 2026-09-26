@@ -44,8 +44,8 @@ mark {
 
 /* Square-dotted frame for header links (CSS `dotted` borders draw round dots) */
 .dotted-frame {
-  --dot: 2.5px;
-  --step: 5.5px;
+  --dot: 2px;
+  --step: 4.5px;
   background:
     linear-gradient(to right, currentColor var(--dot), transparent 0) top left / var(--step) var(--dot) repeat-x,
     linear-gradient(to right, currentColor var(--dot), transparent 0) bottom left / var(--step) var(--dot) repeat-x,
