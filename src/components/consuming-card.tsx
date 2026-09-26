@@ -1,4 +1,5 @@
 import Image from "next/image";
+import parasite from "@/assets/parasite.jpg";
 import stoner from "@/assets/stoner.jpg";
 
 const mono = "font-mono uppercase leading-none";
@@ -12,12 +13,22 @@ const Bars = ({ className }: { className?: string }) => (
   />
 );
 
-/** A flat-lay of things consumed: a book, a boarding pass, a cinema ticket and a run badge. */
+/** A flat-lay of things consumed: a book, a film, a boarding pass and a run badge, piled up. */
 export function ConsumingCard() {
   return (
     <span className="absolute inset-0 overflow-hidden bg-[#f4f3ef]">
+      {/* Stoner, underneath */}
+      <span className="absolute top-[5%] left-[29%] z-10 w-[22%] rotate-[-14deg] shadow-[0_6px_12px_-5px_rgb(0_0_0/0.45)]">
+        <Image src={stoner} alt="" sizes="5rem" className="block h-auto w-full" />
+      </span>
+
+      {/* Parasite poster */}
+      <span className="absolute top-[3%] left-[45%] z-20 w-[22%] rotate-[11deg] shadow-[0_6px_12px_-5px_rgb(0_0_0/0.45)]">
+        <Image src={parasite} alt="" sizes="5rem" className="block h-auto w-full" />
+      </span>
+
       {/* Boarding pass */}
-      <span className="absolute top-[9%] left-[4%] w-[46%] rotate-[-7deg] rounded-[4px] bg-white p-[5px] shadow-[0_4px_10px_-4px_rgb(0_0_0/0.35)]">
+      <span className="absolute top-[40%] left-[12%] z-30 w-[42%] rotate-[-8deg] rounded-[4px] bg-white p-[5px] shadow-[0_5px_12px_-4px_rgb(0_0_0/0.4)]">
         <span className={`${mono} flex items-center justify-between text-[5px] text-muted`}>
           <span>From</span>
           <span>✈</span>
@@ -39,31 +50,8 @@ export function ConsumingCard() {
         <Bars className="mt-[4px]" />
       </span>
 
-      {/* Stoner */}
-      <span className="absolute top-[3%] left-[52%] w-[23%] rotate-[5deg] shadow-[0_6px_12px_-5px_rgb(0_0_0/0.45)]">
-        <Image src={stoner} alt="" sizes="5rem" className="block h-auto w-full" />
-      </span>
-
-      {/* Cinema ticket */}
-      <span className="absolute top-[47%] right-[3%] w-[40%] rotate-[-4deg] bg-[#faf6ea] shadow-[0_4px_10px_-4px_rgb(0_0_0/0.35)]">
-        <span className={`${mono} block bg-[#c8322b] px-[5px] py-[3px] text-[4.5px] tracking-[0.12em] text-white`}>Admit one · Cinema 3</span>
-        <span className="block px-[5px] pt-[4px] pb-[5px]">
-          <span className={`${mono} block text-[10px] font-bold tracking-[0.02em] text-foreground`}>Parasite</span>
-          <span className="mt-[2px] block text-[6px] leading-none text-foreground">기생충</span>
-          <span className={`${mono} mt-[4px] flex justify-between text-[4.5px] text-muted`}>
-            <span>Row F</span>
-            <span>Seat 12</span>
-            <span>19:40</span>
-          </span>
-        </span>
-        <span aria-hidden className="block border-t border-dashed border-foreground/30" />
-        <span className="block px-[5px] py-[3px]">
-          <Bars />
-        </span>
-      </span>
-
       {/* Run badge */}
-      <span className="absolute bottom-[7%] left-[12%] flex w-[32%] rotate-[6deg] flex-col rounded-[5px] bg-[#a79dfe] p-[6px] shadow-[0_5px_10px_-4px_rgb(0_0_0/0.4)]">
+      <span className="absolute top-[46%] left-[46%] z-40 flex w-[33%] rotate-[5deg] flex-col rounded-[5px] bg-[#a79dfe] p-[6px] shadow-[0_6px_14px_-4px_rgb(0_0_0/0.45)]">
         <span className={`${mono} text-[5px] text-foreground/70`}>Purple level</span>
         <span className="mt-[3px] text-[15px] leading-none font-black tracking-[-0.03em] text-foreground italic">4,289</span>
         <span className={`${mono} mt-[2px] text-[5px] text-foreground`}>Total km</span>

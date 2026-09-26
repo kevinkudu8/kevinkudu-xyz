@@ -42,15 +42,32 @@ mark {
   -webkit-box-decoration-break: clone;
 }
 
-/* Square-dotted frame for header links (CSS `dotted` borders draw round dots) */
+/* Round-dotted frame for header links. Dots are spaced evenly with one dot
+   exactly on each corner: rows (::before) and columns (::after) each run a
+   half-gap past the box so their end dots land flush on the corners, where
+   they coincide instead of doubling up. */
 .dotted-frame {
-  --dot: 2px;
-  --step: 4.5px;
+  --dot: 2.5px;
+  --step: 6px;
+  --half-gap: calc((var(--step) - var(--dot)) / -2);
+  --dot-fill: radial-gradient(circle closest-side, currentColor 90%, transparent);
+}
+.dotted-frame::before,
+.dotted-frame::after {
+  content: "";
+  position: absolute;
+}
+.dotted-frame::before {
+  inset: 0 var(--half-gap);
   background:
-    linear-gradient(to right, currentColor var(--dot), transparent 0) top left / var(--step) var(--dot) repeat-x,
-    linear-gradient(to right, currentColor var(--dot), transparent 0) bottom left / var(--step) var(--dot) repeat-x,
-    linear-gradient(to bottom, currentColor var(--dot), transparent 0) top left / var(--dot) var(--step) repeat-y,
-    linear-gradient(to bottom, currentColor var(--dot), transparent 0) top right / var(--dot) var(--step) repeat-y;
+    var(--dot-fill) top center / var(--step) var(--dot) space no-repeat,
+    var(--dot-fill) bottom center / var(--step) var(--dot) space no-repeat;
+}
+.dotted-frame::after {
+  inset: var(--half-gap) 0;
+  background:
+    var(--dot-fill) left center / var(--dot) var(--step) no-repeat space,
+    var(--dot-fill) right center / var(--dot) var(--step) no-repeat space;
 }
 
 /* Travel map: pulsing ring behind each visited city */
