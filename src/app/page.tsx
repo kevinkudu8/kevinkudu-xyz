@@ -3,50 +3,63 @@ import { HoverWord } from "@/components/hover-word";
 import { TiltPortrait } from "@/components/tilt-portrait";
 import heroPortrait from "@/assets/hero-portrait.png";
 import seoulMap from "@/assets/seoul-map.svg";
-// Placeholders cropped from the Figma exports; swap for originals when available
-import eventPhoto from "@/assets/placeholders/event-cryptocom-ufc.jpg";
-import filmStill1 from "@/assets/placeholders/film-still-1.jpg";
-import filmStill2 from "@/assets/placeholders/film-still-2.jpg";
-import filmStill3 from "@/assets/placeholders/film-still-3.jpg";
+import { getBooks } from "@/lib/books";
+import { getFilms } from "@/lib/films";
 
-const filmStills = [filmStill1, filmStill2, filmStill3];
+const previously = [
+  { name: "Serotonin", href: "https://serotonin.co" },
+  { name: "Push", href: "https://push.xyz" },
+  { name: "ETHGlobal", href: "https://ethglobal.com" },
+];
+
+// The three films on the Content page, in order
+const filmPosters = [
+  "/content/timeless-legacy/poster.jpg",
+  "/content/low-tide/poster.jpg",
+  "/content/which-one-of-us-are-you/poster.jpg",
+];
 
 const eventsCard = (
-  <Image src={eventPhoto} alt="" sizes="20rem" className="block h-auto w-full" />
+  <Image src="/events/arc-studio/01.jpg" alt="" fill sizes="20rem" className="object-cover" />
 );
 
 const contentCard = (
-  <span className="grid grid-cols-3 gap-0.5 bg-foreground">
-    {filmStills.map((still) => (
-      <Image
-        key={still.src}
-        src={still}
-        alt=""
-        sizes="7rem"
-        className="block aspect-[207/263] h-auto w-full object-cover"
-      />
+  <span className="absolute inset-0 grid grid-cols-3 gap-0.5 bg-foreground">
+    {filmPosters.map((src) => (
+      <span key={src} className="relative">
+        <Image src={src} alt="" fill sizes="7rem" className="object-cover" />
+      </span>
     ))}
   </span>
 );
 
-const seoulCard = (
-  <Image src={seoulMap} alt="" unoptimized className="block h-auto w-full" />
-);
+const seoulCard = <Image src={seoulMap} alt="" fill unoptimized className="object-cover" />;
 
-const consumingCard = (
-  <span className="block bg-[#f9f8e3] font-mono text-[0.7rem] leading-normal tracking-[0.12em] uppercase">
-    <span className="flex items-center justify-between border-b border-foreground/15 px-4 py-3">
-      <span>📚 Bookshelf</span>
-      <span>→</span>
+/** Favourite books and five-star films, as covers on a shelf. */
+function consumingCard(covers: string[]) {
+  return (
+    <span className="absolute inset-0 grid grid-cols-4 items-center gap-2.5 bg-[#f1efe6] px-5">
+      {covers.map((src, i) => (
+        <span
+          key={src}
+          className="relative aspect-[2/3] w-full overflow-hidden rounded-[2px] shadow-[0_8px_16px_-8px_rgb(0_0_0/0.45)]"
+          style={{ transform: `rotate(${[-4, 2, -2, 4][i % 4]}deg)` }}
+        >
+          <Image src={src} alt="" fill unoptimized className="object-cover" />
+        </span>
+      ))}
     </span>
-    <span className="flex items-center justify-between px-4 py-3">
-      <span>🍿 Movie shelf</span>
-      <span>→</span>
-    </span>
-  </span>
-);
+  );
+}
 
-export default function Home() {
+export default async function Home() {
+  const [books, films] = await Promise.all([getBooks(), getFilms()]);
+  // Two favourite books and two five-star films, newest first
+  const covers = [
+    ...books.filter((b) => b.favourite && b.cover && !b.cover.startsWith("/covers/")).slice(0, 2).map((b) => b.cover!),
+    ...films.filter((f) => f.rating === 5 && f.poster).slice(0, 2).map((f) => f.poster!),
+  ];
+
   return (
     <main className="px-gutter flex flex-1 items-center overflow-x-clip py-16 sm:py-24">
       <div className="mx-auto flex w-full max-w-[1320px] flex-col gap-10 sm:flex-row sm:items-center sm:gap-[clamp(2rem,4.9vw,5.875rem)]">
@@ -62,7 +75,8 @@ export default function Home() {
           />
         </TiltPortrait>
 
-        <p className="min-w-0 max-w-[1000px] text-[clamp(1.75rem,3.3vw,3.5rem)] leading-[1.12] tracking-[-0.015em]">
+        <div className="min-w-0 max-w-[1000px]">
+        <p className="text-[clamp(1.75rem,3.3vw,3.5rem)] leading-[1.12] tracking-[-0.015em]">
           I create{" "}
           <HoverWord href="/events" card={eventsCard}>
             events 🎪
@@ -73,11 +87,32 @@ export default function Home() {
           </HoverWord>{" "}
           for tech and web3 companies. Currently living in{" "}
           <HoverWord card={seoulCard}>Seoul 🇰🇷</HoverWord>. I love{" "}
-          <HoverWord href="/my-life" card={consumingCard}>
+          <HoverWord href="/my-life" card={consumingCard(covers)}>
             consuming
           </HoverWord>{" "}
           books 📚, movies 🍿 and traveling 🗺️
         </p>
+        <p className="mt-8 flex flex-wrap items-center gap-x-3 gap-y-1 font-mono text-[0.68rem] tracking-[0.1em] uppercase sm:mt-10">
+          <span className="text-muted">Previously</span>
+          {previously.map((company, i) => (
+            <span key={company.name} className="flex items-center gap-3">
+              {i > 0 && (
+                <span aria-hidden className="text-muted">
+                  ·
+                </span>
+              )}
+              <a
+                href={company.href}
+                target="_blank"
+                rel="noreferrer"
+                className="underline decoration-foreground/25 decoration-dotted underline-offset-4 transition-colors hover:decoration-foreground"
+              >
+                {company.name}
+              </a>
+            </span>
+          ))}
+        </p>
+        </div>
       </div>
     </main>
   );

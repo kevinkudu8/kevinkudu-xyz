@@ -59,7 +59,8 @@ export function HoverWord({
         className="pointer-events-none absolute bottom-[calc(100%+0.6rem)] left-[calc(50%+var(--shift,0px))] z-20 block w-[min(20rem,calc(100vw-2rem))] -translate-x-1/2"
       >
         <span className="invisible block origin-bottom translate-y-1.5 scale-[0.97] overflow-hidden rounded-[14px] border-2 border-foreground bg-background opacity-0 shadow-[0_14px_32px_-14px_rgb(0_0_0/0.35)] transition-[opacity,translate,scale,visibility] duration-200 ease-out group-focus-within:visible group-focus-within:translate-y-0 group-focus-within:scale-100 group-focus-within:opacity-100 group-hover:visible group-hover:translate-y-0 group-hover:scale-100 group-hover:opacity-100 motion-reduce:translate-y-0 motion-reduce:scale-100 motion-reduce:transition-opacity">
-          {card}
+          {/* Every card shares the Seoul map's proportions (600×361) */}
+          <span className="relative block aspect-[600/361] w-full">{card}</span>
         </span>
       </span>
     </span>

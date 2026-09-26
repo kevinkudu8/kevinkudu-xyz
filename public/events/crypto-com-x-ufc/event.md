@@ -1,6 +1,6 @@
 ---
 title: Crypto.com x UFC
-order: 2
+order: 1
 featured: true
 client: Crypto.com
 scope: Concept; Creative; Production; Reporting

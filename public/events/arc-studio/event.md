@@ -1,6 +1,6 @@
 ---
 title: Arc/Circle
-order: 1
+order: 2
 client: Circle
 scope: Concept; Creative; Production; Reporting
 location: Buenos Aires · Denver
