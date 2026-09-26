@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { HoverWord } from "@/components/hover-word";
 import { TiltPortrait } from "@/components/tilt-portrait";
-import heroPortrait from "@/assets/hero-portrait.png";
+import heroPortrait from "@/assets/home-portrait.jpg";
 import seoulMap from "@/assets/seoul-map.svg";
 // Placeholders cropped from the Figma exports; swap for originals when available
 import eventPhoto from "@/assets/placeholders/event-cryptocom-ufc.jpg";

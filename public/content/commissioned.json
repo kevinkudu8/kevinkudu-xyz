@@ -1,0 +1,61 @@
+{
+  "intro": "Six years in content production, from full-time web3 producer to freelancer and agency producer. In web3 since 2020. At ETHGlobal I led all video production for a year and four months: 600+ videos edited and 25+ in-person and online events produced.",
+  "stats": [
+    { "value": "6+", "label": "Years in production" },
+    { "value": "600+", "label": "Videos edited" },
+    { "value": "25+", "label": "Events produced" },
+    { "value": "16", "label": "Week webinar series" }
+  ],
+  "clients": ["Circle", "Robinhood", "PayPal USD", "ETHGlobal", "CoinDesk", "Polygon", "Zora", "Google Cloud", "Stellar", "LayerZero", "QuickNode", "Ethereum Foundation", "Iron Fish"],
+  "groups": [
+    {
+      "title": "Event recaps",
+      "text": "Producing recap films at hackathons and conferences around the world, finding and directing local crews in each city.",
+      "videos": [
+        { "youtube": "mxsNhYCSJcI", "title": "ETHGlobal Paris 2023" },
+        { "youtube": "96_OCaFqQTg", "title": "ETHGlobal Lisbon 2023" },
+        { "youtube": "TUDtjX-djro", "title": "ETHBogotá 2022" },
+        { "youtube": "U6LDMJ2pdvk", "title": "ETHIndia 2022" }
+      ]
+    },
+    {
+      "title": "Interviews & panels",
+      "text": "Live interviews, panels and fireside chats, produced with local production companies hired and directed in each city.",
+      "videos": [
+        { "youtube": "y2SfT8ugjCk", "title": "Vitalik Buterin fireside chat", "meta": "Pragma Waterloo" },
+        { "youtube": "cWkIKxwHjY0", "title": "Growing the Infinite Garden", "meta": "Aya Miyaguchi · Pragma Tokyo" },
+        { "youtube": "Vm9U8OvQgPw", "title": "Polygon & Ethereum panel", "meta": "Pragma Paris" }
+      ]
+    },
+    {
+      "title": "Social content",
+      "text": "Social campaigns for CoinDesk's Consensus conferences: Hong Kong 2025 and 2026, Toronto and Miami.",
+      "videos": [
+        { "youtube": "3jOuCBHCARA", "title": "Believe In Something Together", "meta": "Consensus Hong Kong 2025" },
+        { "youtube": "Vxa1kfBW9BY", "title": "Join the Movement", "meta": "Consensus Hong Kong" }
+      ]
+    },
+    {
+      "title": "Social clips",
+      "text": "Short-form interview clips cut for social.",
+      "videos": [
+        { "youtube": "eXwrHur_rm0", "title": "Dalvin Sejour", "meta": "ETHSanFrancisco" },
+        { "youtube": "RUC0I4wii_g", "title": "Elena Nadolinski", "meta": "Iron Fish" },
+        { "youtube": "dw43jihbJEo", "title": "Joseph Schweitzer", "meta": "Ethereum Foundation" }
+      ]
+    },
+    {
+      "title": "Launches & teasers",
+      "text": "Announcement and teaser films for hackathon programs.",
+      "videos": [
+        { "youtube": "3eLd7Hj0dXs", "title": "Zora × ETHGlobal", "meta": "Director, producer, editor" },
+        { "youtube": "zpTY4ilYinY", "title": "FVM Space Warp", "meta": "Animation and edit" }
+      ]
+    },
+    {
+      "title": "Series & branding",
+      "text": "Strategized, organized and produced 16 weeks of PayPal USD Stable Club webinars across social channels with Google, Stellar, LayerZero and QuickNode. Led the rebrand of ETHGlobal's video identity: custom frames for online and live events, lower thirds and social branding.",
+      "image": "/events/paypal-usd/10.jpg"
+    }
+  ]
+}

@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useRef, useState } from "react";
 import type { WorkFilm } from "@/lib/work-films";
+import { youtubeEmbed, youtubeId } from "@/lib/youtube";
 
 /**
  * A row of portrait cards. The hovered (or focused) card widens and reveals
@@ -13,7 +14,7 @@ export function FilmRow({ films }: { films: WorkFilm[] }) {
   const [open, setOpen] = useState<WorkFilm | null>(null);
 
   function play(film: WorkFilm) {
-    if (film.link && !film.video) {
+    if (film.link && !film.video && !youtubeId(film.link)) {
       window.open(film.link, "_blank", "noopener,noreferrer");
       return;
     }
@@ -58,7 +59,15 @@ export function FilmRow({ films }: { films: WorkFilm[] }) {
         {open && (
           <div className="flex h-full flex-col">
             <div className="relative m-6 flex-1 sm:m-14">
-              {open.video ? (
+              {youtubeId(open.link) && !open.video ? (
+                <iframe
+                  src={youtubeEmbed(youtubeId(open.link)!)}
+                  title={open.title}
+                  allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
+                  allowFullScreen
+                  className="absolute inset-0 h-full w-full"
+                />
+              ) : open.video ? (
                 <video
                   key={open.video}
                   src={open.video}

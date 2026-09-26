@@ -323,7 +323,7 @@ function EventDetail({ event }: { event: EventEntry }) {
       {gallery.length > 0 && (
         // Masonry: each photo keeps its own shape
         <ul className="mt-14 columns-1 gap-3 sm:columns-2">
-          {gallery.map((img, i) => (
+          {gallery.map((img) => (
             <li key={img.src} className="mb-3 break-inside-avoid">
               <button
                 type="button"

@@ -51,3 +51,6 @@ next-env.d.ts
 
 # raw event media (originals are large; the site uses processed copies in public/events)
 /design/Events Page/
+
+# home photo originals (the site uses a cropped copy in src/assets)
+/design/Home_image*
