@@ -48,7 +48,7 @@ mark {
    they coincide instead of doubling up. */
 .dotted-frame {
   --dot: 2.5px;
-  --step: 6px;
+  --step: 5px;
   --half-gap: calc((var(--step) - var(--dot)) / -2);
   --dot-fill: radial-gradient(circle closest-side, currentColor 90%, transparent);
 }
