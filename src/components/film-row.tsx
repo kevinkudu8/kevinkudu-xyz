@@ -23,9 +23,28 @@ export function FilmRow({ films }: { films: WorkFilm[] }) {
 
   return (
     <>
-      <ul className="grid grid-cols-2 gap-x-4 gap-y-10 sm:flex sm:h-[clamp(20rem,34vw,30rem)] sm:gap-4">
+      {/* Wide screens: a row of small cards; the hovered one grows into its gaps */}
+      <ul className="hidden h-[calc(var(--w)*1.35*1.365+5rem)] items-center justify-center [--g:calc(var(--w)*0.31)] [--w:clamp(6.5rem,9.85vw,12.5rem)] lg:flex">
+        {films.map((film, i) => (
+          <FilmCard key={film.slug} film={film} index={i} onPlay={() => play(film)} />
+        ))}
+      </ul>
+
+      {/* Phones and tablets: no hover, so a grid with captions */}
+      <ul className="grid grid-cols-2 gap-x-4 gap-y-10 sm:grid-cols-3 lg:hidden">
         {films.map((film) => (
-          <FilmCard key={film.slug} film={film} onPlay={() => play(film)} />
+          <li key={film.slug}>
+            <button
+              type="button"
+              onClick={() => play(film)}
+              aria-label={`Play ${film.title}`}
+              className="relative block aspect-[4/5] w-full overflow-hidden bg-highlight"
+            >
+              {film.poster && <Image src={film.poster} alt="" fill sizes="(max-width: 640px) 50vw, 33vw" className="object-cover" />}
+            </button>
+            <p className="mt-3 text-sm leading-snug">{film.title}</p>
+            <p className="mt-1 font-mono text-[0.58rem] tracking-[0.08em] text-muted uppercase">{film.details.join(" · ")}</p>
+          </li>
         ))}
       </ul>
 
@@ -82,7 +101,7 @@ export function FilmRow({ films }: { films: WorkFilm[] }) {
   );
 }
 
-function FilmCard({ film, onPlay }: { film: WorkFilm; onPlay: () => void }) {
+function FilmCard({ film, index, onPlay }: { film: WorkFilm; index: number; onPlay: () => void }) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const start = () => void videoRef.current?.play().catch(() => {});
   const stop = () => {
@@ -92,6 +111,7 @@ function FilmCard({ film, onPlay }: { film: WorkFilm; onPlay: () => void }) {
       v.currentTime = 0;
     }
   };
+  const type = film.details[0];
 
   return (
     <li
@@ -99,22 +119,25 @@ function FilmCard({ film, onPlay }: { film: WorkFilm; onPlay: () => void }) {
       onPointerLeave={stop}
       onFocus={start}
       onBlur={stop}
-      className="group relative min-w-0 transition-[flex-grow] duration-500 ease-[cubic-bezier(0.2,0.7,0.2,1)] sm:flex-1 sm:hover:flex-[2.6] sm:focus-within:flex-[2.6] motion-reduce:transition-none"
+      // Grows by ~48% wide / ~37% tall, giving back the same width from its
+      // margins, so the neighbouring cards stay put and only the gaps close up
+      className="group relative mx-[calc(var(--g)/2)] h-[calc(var(--w)*1.35)] w-(--w) shrink-0 transition-[width,height,margin] duration-500 ease-[cubic-bezier(0.2,0.7,0.2,1)] hover:mx-[calc(var(--g)/2-var(--w)*0.24)] hover:h-[calc(var(--w)*1.35*1.365)] hover:w-[calc(var(--w)*1.48)] focus-within:mx-[calc(var(--g)/2-var(--w)*0.24)] focus-within:h-[calc(var(--w)*1.35*1.365)] focus-within:w-[calc(var(--w)*1.48)] motion-reduce:transition-none"
     >
+      <span
+        aria-hidden
+        className="pointer-events-none absolute bottom-full left-0 mb-2.5 font-mono text-[0.72rem] tracking-[0.04em] opacity-0 transition-opacity duration-300 group-focus-within:opacity-100 group-focus-within:delay-150 group-hover:opacity-100 group-hover:delay-150"
+      >
+        ({String(index + 1).padStart(2, "0")})
+      </span>
+
       <button
         type="button"
         onClick={onPlay}
-        aria-label={`Play ${film.title}`}
-        className="relative block aspect-[4/5] w-full overflow-hidden bg-highlight sm:aspect-auto sm:h-full"
+        aria-label={`Play ${film.title}${type ? `, ${type}` : ""}`}
+        className="relative block h-full w-full overflow-hidden bg-highlight"
       >
         {film.poster && (
-          <Image
-            src={film.poster}
-            alt=""
-            fill
-            sizes="(max-width: 640px) 50vw, 40vw"
-            className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03] motion-reduce:transition-none"
-          />
+          <Image src={film.poster} alt="" fill sizes="(max-width: 1440px) 21vw, 19rem" className="object-cover" />
         )}
         {film.preview && (
           <video
@@ -128,32 +151,16 @@ function FilmCard({ film, onPlay }: { film: WorkFilm; onPlay: () => void }) {
             className="absolute inset-0 h-full w-full object-cover opacity-0 transition-opacity duration-300 group-hover:opacity-100"
           />
         )}
-        {/* Details: revealed on hover/focus on wide screens */}
-        <span className="pointer-events-none absolute inset-x-0 bottom-0 hidden bg-gradient-to-t from-black/75 via-black/30 to-transparent p-5 pt-16 text-left text-white opacity-0 transition-opacity duration-300 group-focus-within:opacity-100 group-hover:opacity-100 sm:block">
-          {film.sample && (
-            <span className="mb-3 inline-block rounded-full border border-white/40 px-2.5 py-0.5 font-mono text-[0.55rem] tracking-[0.12em] uppercase">
-              Sample content
-            </span>
-          )}
-          <span className="block text-xl leading-tight whitespace-nowrap">{film.title}</span>
-          <span className="mt-1.5 block font-mono text-[0.6rem] tracking-[0.1em] whitespace-nowrap text-white/75 uppercase">
-            {film.details.join(" · ")}
-          </span>
-          {film.description && (
-            <span className="mt-3 line-clamp-2 block max-w-[34ch] text-[0.8rem] leading-snug text-white/85">
-              {film.description}
-            </span>
-          )}
-        </span>
       </button>
 
-      {/* On phones there's no hover, so details sit under the still */}
-      <div className="mt-3 sm:hidden">
-        <p className="text-sm leading-snug">{film.title}</p>
-        <p className="mt-1 font-mono text-[0.58rem] tracking-[0.08em] text-muted uppercase">
-          {film.details.join(" · ")}
-        </p>
-      </div>
+      <span
+        aria-hidden
+        className="pointer-events-none absolute top-full left-0 mt-2.5 font-mono text-[0.72rem] tracking-[0.02em] whitespace-nowrap opacity-0 transition-opacity duration-300 group-focus-within:opacity-100 group-focus-within:delay-150 group-hover:opacity-100 group-hover:delay-150"
+      >
+        {film.title}
+        {type && ` / ${type}`}
+        {film.sample && <span className="ml-2 text-muted">(sample)</span>}
+      </span>
     </li>
   );
 }
