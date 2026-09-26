@@ -48,3 +48,6 @@ next-env.d.ts
 
 # personal data exports (Letterboxd etc.) - never publish
 /design/*.zip
+
+# raw event media (originals are large; the site uses processed copies in public/events)
+/design/Events Page/

@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useRef, useState, useSyncExternalStore, type KeyboardEvent } from "react";
+import { useEffect, useRef, useState, useSyncExternalStore, type KeyboardEvent } from "react";
 import type { EventEntry } from "@/lib/events";
 
 const subscribe = (onChange: () => void) => {
@@ -65,24 +65,53 @@ export function EventsBrowser({ events, intro }: { events: EventEntry[]; intro: 
   );
 }
 
-function EventDetail({ event }: { event: EventEntry }) {
-  const [hero, ...gallery] = event.images;
-  const dialogRef = useRef<HTMLDialogElement>(null);
-  const [viewing, setViewing] = useState(0);
+/** Silent loop at the top of an event. Only plays on larger screens and when motion is welcome. */
+function HeroLoop({ src, poster }: { src: string; poster: string | null }) {
+  const ref = useRef<HTMLVideoElement>(null);
+  useEffect(() => {
+    const video = ref.current;
+    if (!video) return;
+    if (!matchMedia("(min-width: 768px) and (prefers-reduced-motion: no-preference)").matches) return;
+    video.src = src;
+    video.play().catch(() => {});
+  }, [src]);
+  return (
+    <video
+      ref={ref}
+      poster={poster ?? undefined}
+      muted
+      loop
+      playsInline
+      preload="none"
+      aria-hidden
+      className="absolute inset-0 h-full w-full object-cover"
+    />
+  );
+}
 
-  function open(index: number) {
-    setViewing(index);
+function EventDetail({ event }: { event: EventEntry }) {
+  const dialogRef = useRef<HTMLDialogElement>(null);
+  const [viewing, setViewing] = useState<number | "film">(0);
+  // With a loop up top, every photo goes in the gallery; otherwise the first photo is the hero
+  const heroImage = event.loop ? null : event.images[0];
+  const gallery = event.loop ? event.images : event.images.slice(1);
+  const galleryOffset = event.loop ? 0 : 1;
+
+  function open(target: number | "film") {
+    setViewing(target);
     dialogRef.current?.showModal();
   }
 
   function step(by: number) {
-    setViewing((i) => (i + by + event.images.length) % event.images.length);
+    setViewing((i) => (typeof i === "number" ? (i + by + event.images.length) % event.images.length : i));
   }
 
   function onKey(e: KeyboardEvent<HTMLDialogElement>) {
     if (e.key === "ArrowRight") step(1);
     if (e.key === "ArrowLeft") step(-1);
   }
+
+  const shown = typeof viewing === "number" ? event.images[viewing] : null;
 
   return (
     <article className="animate-[fade-in_0.35s_ease-out] motion-reduce:animate-none">
@@ -105,27 +134,39 @@ function EventDetail({ event }: { event: EventEntry }) {
         </dl>
       )}
 
-      {hero ? (
-        <button
-          type="button"
-          onClick={() => open(0)}
-          aria-label="View image full screen"
-          className="group relative mt-8 block aspect-[16/9] w-full overflow-hidden bg-highlight"
-        >
-          <Image
-            src={hero}
-            alt={`${event.title}, image 1 of ${event.images.length}`}
-            fill
-            priority
-            sizes="(max-width: 768px) 100vw, 62vw"
-            className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.015] motion-reduce:transition-none"
-          />
-        </button>
-      ) : (
-        <div className="mt-8 grid aspect-[16/9] place-items-center bg-highlight font-mono text-xs tracking-[0.1em] text-muted uppercase">
-          Images coming soon
-        </div>
-      )}
+      <div className="relative mt-8 aspect-[16/9] overflow-hidden bg-highlight">
+        {event.loop ? (
+          <HeroLoop src={event.loop} poster={event.poster} />
+        ) : heroImage ? (
+          <button type="button" onClick={() => open(0)} aria-label="View image full screen" className="group absolute inset-0">
+            <Image
+              src={heroImage.src}
+              alt={`${event.title}, image 1 of ${event.images.length}`}
+              fill
+              loading="eager"
+              fetchPriority="high"
+              sizes="(max-width: 768px) 100vw, 62vw"
+              className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.015] motion-reduce:transition-none"
+            />
+          </button>
+        ) : (
+          <div className="grid h-full place-items-center font-mono text-xs tracking-[0.1em] text-muted uppercase">
+            Images coming soon
+          </div>
+        )}
+        {event.film && (
+          <button
+            type="button"
+            onClick={() => open("film")}
+            className="absolute bottom-4 left-4 flex items-center gap-2.5 rounded-full bg-background/90 py-2 pr-4 pl-3 font-mono text-[0.62rem] tracking-[0.1em] uppercase backdrop-blur transition-colors hover:bg-background"
+          >
+            <span aria-hidden className="grid size-5 place-items-center rounded-full bg-[#ff4f1f] text-[0.55rem] text-white">
+              ▶
+            </span>
+            Watch the film
+          </button>
+        )}
+      </div>
 
       {event.stats.length > 0 && (
         <dl className="mt-10 grid grid-cols-2 gap-x-6 gap-y-8 border-t border-foreground pt-7 sm:grid-cols-4">
@@ -146,23 +187,39 @@ function EventDetail({ event }: { event: EventEntry }) {
         </div>
       )}
 
+      {event.parts.length > 0 && (
+        <section aria-label="What we built" className="mt-14">
+          <h3 className="font-mono text-[0.6rem] tracking-[0.1em] text-muted uppercase">What we built</h3>
+          <ol className="mt-5 grid gap-px overflow-hidden rounded-[10px] border border-foreground/12 bg-foreground/12 sm:grid-cols-2">
+            {event.parts.map((part, i) => (
+              <li key={part.title} className="bg-background p-5">
+                <p className="font-mono text-[0.6rem] tracking-[0.08em] text-muted">({String(i + 1).padStart(2, "0")})</p>
+                <p className="mt-2 text-base">{part.title}</p>
+                <p className="mt-1.5 text-sm leading-relaxed text-muted">{part.text}</p>
+              </li>
+            ))}
+          </ol>
+        </section>
+      )}
+
       {gallery.length > 0 && (
-        <ul className="mt-12 grid gap-3 sm:grid-cols-2">
-          {gallery.map((src, i) => (
-            // With an odd count, the first image spans the row so the grid stays even
-            <li key={src} className={gallery.length % 2 === 1 && i === 0 ? "sm:col-span-2" : undefined}>
+        // Masonry: each photo keeps its own shape
+        <ul className="mt-14 columns-1 gap-3 sm:columns-2">
+          {gallery.map((img, i) => (
+            <li key={img.src} className="mb-3 break-inside-avoid">
               <button
                 type="button"
-                onClick={() => open(i + 1)}
-                aria-label={`View image ${i + 2} full screen`}
-                className="group relative block aspect-[16/9] w-full overflow-hidden bg-highlight"
+                onClick={() => open(i + galleryOffset)}
+                aria-label={`View image ${i + galleryOffset + 1} full screen`}
+                className="group block w-full overflow-hidden bg-highlight"
               >
                 <Image
-                  src={src}
+                  src={img.src}
                   alt=""
-                  fill
+                  width={img.width}
+                  height={img.height}
                   sizes="(max-width: 640px) 100vw, 31vw"
-                  className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.02] motion-reduce:transition-none"
+                  className="h-auto w-full transition-transform duration-700 ease-out group-hover:scale-[1.02] motion-reduce:transition-none"
                 />
               </button>
             </li>
@@ -173,37 +230,48 @@ function EventDetail({ event }: { event: EventEntry }) {
       <dialog
         ref={dialogRef}
         onKeyDown={onKey}
+        onClose={() => setViewing(0)}
         onClick={(e) => e.target === e.currentTarget && dialogRef.current?.close()}
-        aria-label={`${event.title} images`}
-        className="m-0 h-dvh max-h-none w-dvw max-w-none bg-black/92 p-0 text-white backdrop:bg-transparent"
+        aria-label={`${event.title} ${viewing === "film" ? "film" : "images"}`}
+        className="m-0 h-dvh max-h-none w-dvw max-w-none bg-black/94 p-0 text-white backdrop:bg-transparent"
       >
-        {event.images[viewing] && (
-          <div className="pointer-events-none absolute inset-6 sm:inset-14">
-            <Image
-              src={event.images[viewing]}
-              alt={`${event.title}, image ${viewing + 1} of ${event.images.length}`}
-              fill
-              sizes="100vw"
-              className="object-contain"
-            />
-          </div>
+        {viewing === "film" && event.film ? (
+          <video
+            key={event.film}
+            src={event.film}
+            poster={event.poster ?? undefined}
+            controls
+            autoPlay
+            playsInline
+            className="absolute inset-6 h-[calc(100%-6rem)] w-[calc(100%-3rem)] object-contain sm:inset-14 sm:h-[calc(100%-9rem)] sm:w-[calc(100%-7rem)]"
+          />
+        ) : (
+          shown && (
+            <div className="pointer-events-none absolute inset-6 sm:inset-14">
+              <Image
+                src={shown.src}
+                alt={`${event.title}, image ${(viewing as number) + 1} of ${event.images.length}`}
+                fill
+                sizes="100vw"
+                className="object-contain"
+              />
+            </div>
+          )
         )}
         <div className="absolute inset-x-0 bottom-0 flex items-center justify-between p-4 font-mono text-[0.65rem] tracking-[0.1em] uppercase sm:p-6">
-          <span>
-            {viewing + 1} / {event.images.length}
-          </span>
+          <span>{viewing === "film" ? event.title : `${(viewing as number) + 1} / ${event.images.length}`}</span>
           <div className="flex gap-2">
-            {event.images.length > 1 && (
+            {viewing !== "film" && event.images.length > 1 && (
               <>
-                <button type="button" onClick={() => step(-1)} className="rounded-full border border-white/40 px-4 py-2 hover:bg-white/10">
+                <button type="button" onClick={() => step(-1)} className="rounded-full border border-white/40 px-4 py-2 uppercase hover:bg-white/10">
                   Prev
                 </button>
-                <button type="button" onClick={() => step(1)} className="rounded-full border border-white/40 px-4 py-2 hover:bg-white/10">
+                <button type="button" onClick={() => step(1)} className="rounded-full border border-white/40 px-4 py-2 uppercase hover:bg-white/10">
                   Next
                 </button>
               </>
             )}
-            <button type="button" onClick={() => dialogRef.current?.close()} className="rounded-full border border-white/40 px-4 py-2 hover:bg-white/10">
+            <button type="button" onClick={() => dialogRef.current?.close()} className="rounded-full border border-white/40 px-4 py-2 uppercase hover:bg-white/10">
               Close
             </button>
           </div>

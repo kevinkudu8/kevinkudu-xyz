@@ -7,10 +7,10 @@ export const metadata: Metadata = { title: "Events" };
 const INTRO =
   "Physical spaces around the globe, designed to help brands connect with the people who keep them relevant.";
 
-export default function EventsPage() {
+export default async function EventsPage() {
   return (
     <main className="px-gutter flex-1 py-16 sm:py-24">
-      <EventsBrowser events={getEvents()} intro={INTRO} />
+      <EventsBrowser events={await getEvents()} intro={INTRO} />
     </main>
   );
 }
