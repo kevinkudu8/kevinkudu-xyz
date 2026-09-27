@@ -122,10 +122,36 @@ mark {
   }
 }
 
-/* A faint green glow behind the page in dark mode, like the reference */
-:root[data-theme="dark"] body {
-  background:
-    radial-gradient(60vw 70vh at 78% 35%, rgb(90 130 70 / 0.16), transparent 70%),
-    var(--background);
-  background-attachment: fixed;
+/* Dark mode backdrop, after the green-light reference: a tilted, soft beam of
+   light (bright core fading through green to black) plus film grain. Fixed, so
+   it stays put while the page scrolls; kept dim enough for text on top. */
+:root[data-theme="dark"] body::before,
+:root[data-theme="dark"] body::after {
+  content: "";
+  position: fixed;
+  pointer-events: none;
+  z-index: -1;
+}
+:root[data-theme="dark"] body::before {
+  top: -18vh;
+  right: 12vw;
+  width: min(44vw, 680px);
+  height: 136vh;
+  border-radius: 50%;
+  background: radial-gradient(
+    closest-side,
+    rgb(236 255 220 / 0.62),
+    rgb(150 210 120 / 0.46) 30%,
+    rgb(74 135 56 / 0.28) 56%,
+    rgb(30 60 24 / 0.08) 78%,
+    transparent
+  );
+  transform: rotate(24deg);
+  filter: blur(46px);
+}
+:root[data-theme="dark"] body::after {
+  inset: 0;
+  opacity: 0.1;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }

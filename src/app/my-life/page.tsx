@@ -42,8 +42,9 @@ export default async function MyLifePage() {
       <div className="mx-auto w-full max-w-[calc(4*clamp(8.5rem,12vw,12.5rem)+3*clamp(2rem,3.5vw,4rem))]">
         <h1 className="text-[clamp(1.8rem,2.45vw,2.95rem)] tracking-[0.05em]">My Life</h1>
         <p className="mt-8 max-w-prose text-sm tracking-[0.05em] sm:text-base">
-          I believe life is about consuming beautiful things with people you love. Here are
-          things I have consumed.
+          I believe life is about consuming beautiful things with people you love.
+          <br />
+          Here are things I have consumed.
         </p>
         <Shelf
           books={bookItems}
