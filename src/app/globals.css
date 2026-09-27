@@ -16,7 +16,7 @@
 
 /* Dark mode, sampled from the GTHR reference: near-black with a green cast */
 :root[data-theme="dark"] {
-  --background: #0b0b0b;
+  --background: #0b0d0b;
   --foreground: #eef0ea;
   --highlight: #252c22;
   --muted: #8a9086;
@@ -122,33 +122,10 @@ mark {
   }
 }
 
-/* Dark mode backdrop: Kevin's green-light image (public/glow.jpg), fixed on
-   the right and feathered into the page, whose colour matches its edges;
-   extra grain on top keeps the texture crisp at any size. */
-:root[data-theme="dark"] body::before,
-:root[data-theme="dark"] body::after {
-  content: "";
-  position: fixed;
-  pointer-events: none;
-  z-index: -1;
-}
-:root[data-theme="dark"] body::before {
-  top: -6vh;
-  right: max(2vw, calc(50vw - 46rem));
-  width: min(70vh, 62vw);
-  height: 124vh;
-  background: url("/glow.jpg") center / cover no-repeat;
-  -webkit-mask-image: radial-gradient(closest-side, #000 72%, transparent);
-  mask-image: radial-gradient(closest-side, #000 72%, transparent);
-  opacity: 0.75;
-}
-/* A soft dark halo keeps text legible where it crosses the bright core */
-:root[data-theme="dark"] main {
-  text-shadow: 0 0 22px rgb(0 0 0 / 0.55), 0 0 2px rgb(0 0 0 / 0.35);
-}
-:root[data-theme="dark"] body::after {
-  inset: 0;
-  opacity: 0.16;
-  mix-blend-mode: overlay;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+/* A faint green glow behind the page in dark mode, like the reference */
+:root[data-theme="dark"] body {
+  background:
+    radial-gradient(60vw 70vh at 78% 35%, rgb(90 130 70 / 0.16), transparent 70%),
+    var(--background);
+  background-attachment: fixed;
 }
