@@ -1,11 +1,23 @@
-{
-  "label": "Spotlight · Singapore",
-  "title": "Paying hawkers in PYUSD",
-  "text": "For the executive food tour we built a working payment flow with the Solana Pay team, powered by Venta. Every vendor on the route was onboarded ahead of time, so guests settled their plates and tips in stablecoin on the spot.",
-  "steps": [
-    { "title": "Airdrop", "text": "Guests arrive with PYUSD sent to their wallet on Solana." },
-    { "title": "Tap to pay", "text": "They order at a hawker stall and pay with a Solana Pay code on a Venta terminal." },
-    { "title": "Payout", "text": "Vendors are paid out in crypto or local currency, their choice." }
-  ],
-  "images": ["05.jpg", "04.jpg"]
-}
+[
+  {
+    "label": "Spotlight · Executive BD · Singapore",
+    "title": "An executive food tour, paid in PYUSD",
+    "text": "For executives in town for Token2049 and Breakpoint, we built a working payment flow with Solana Pay and Venta, then took them on a food tour: a hawker stall, cocktails and a BBQ. Every guest was airdropped PYUSD to pay and tip the vendors along the way.",
+    "steps": [
+      { "title": "Airdrop", "text": "Guests arrive with PYUSD sent to their wallet on Solana." },
+      { "title": "Tap to pay", "text": "At each stop they pay with a Solana Pay code on a Venta terminal." },
+      { "title": "Tip the vendors", "text": "Tips go straight to the vendors in PYUSD, paid out in crypto or local currency, their choice." }
+    ],
+    "images": ["05.jpg", "04.jpg"]
+  },
+  {
+    "label": "Spotlight · Online",
+    "title": "PYUSD webinar series",
+    "text": "Two webinar series took the program online, bringing PYUSD to builders and partners wherever they were.",
+    "steps": [
+      { "title": "Google Cloud series", "text": "Biweekly sessions with Google Cloud teams, from June 2025." },
+      { "title": "Stable Club", "text": "From October 2025, with LayerZero, Google Cloud, Arbitrum, QuickNode and Stellar." }
+    ],
+    "images": ["10.jpg"]
+  }
+]

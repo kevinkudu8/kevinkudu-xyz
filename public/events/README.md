@@ -20,6 +20,8 @@ One folder per event. The folder name becomes the link (`/events#folder-name`).
     stats: 1,650 = Sign-ups; 2,750 = Branded items; 22M = Impressions; 3 = Days
     sample: true        (shows a "Sample content" tag; delete once details are real)
     hidden: true        (optional: leaves the event off the site; delete to show it again)
+    scene: pyusd-booth  (optional: a 3D model in place of the first photo; all photos go to the gallery)
+    map: true           (optional: plays the timeline's places on a world map; places are listed in src/lib/program-map.ts)
     ---
 
     First paragraph of the write-up.
@@ -27,3 +29,7 @@ One folder per event. The folder name becomes the link (`/events#folder-name`).
     Second paragraph (separate paragraphs with a blank line).
 
 Images: .jpg, .jpeg, .png, .webp or .avif. Any size; they're cropped to fit.
+
+`spotlight.json` (optional) tells one piece of work step by step, with its
+own photos (which then aren't repeated in the gallery). It can also be a
+list, for more than one spotlight.

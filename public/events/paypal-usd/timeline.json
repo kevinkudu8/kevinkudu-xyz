@@ -2,14 +2,19 @@
   { "date": "Feb 2024", "format": "Happy hour", "place": "Denver", "title": "ETHDenver happy hour", "detail": "The first PYUSD happy hour of the program." },
   { "date": "May 31, 2024", "format": "Happy hour", "place": "Austin", "title": "Consensus happy hour", "detail": "300 confirmed guests." },
   { "date": "Aug 23, 2024", "format": "Build day", "place": "San Jose", "title": "PYUSD Build Day", "detail": "150 builders at PayPal's head office." },
-  { "date": "2024", "format": "Hackathons", "place": "New York · India · Online", "title": "ETHGlobal sponsorships", "detail": "NYC, India and ETHOnline: 128+ projects built with PYUSD." },
-  { "date": "Sep 18–20, 2024", "format": "Executive dinner", "place": "Singapore", "title": "Executive food tour", "detail": "Token2049 and Breakpoint guests paying hawkers in PYUSD.", "image": "02.jpg" },
+  { "date": "Sep 18–20, 2024", "format": "Executive dinner", "place": "Singapore", "title": "Executive food tour", "detail": "Token2049 and Breakpoint guests paying hawkers in PYUSD." },
   { "date": "Sep 18–20, 2024", "format": "Sponsorship", "place": "Singapore", "title": "Solana Breakpoint Learning Pod", "detail": "4 learning sessions and an executive meet-and-greet.", "image": "06.jpg" },
+  { "date": "Oct 24–26, 2024", "format": "Sponsorship", "place": "Hong Kong", "title": "Solana Hacker House", "detail": "Sponsor of the Solana Hacker House in Hong Kong." },
   { "date": "Oct 30, 2024", "format": "Brunch & party", "place": "Las Vegas", "title": "Money20/20", "detail": "Innovation in Payments brunch, then a launch celebration with Crypto.com and Venmo for 350 guests." },
   { "date": "Nov 13, 2024", "format": "Launch event", "place": "Bangkok", "title": "LayerZero × PYUSD launch", "detail": "350 guests during Devcon." },
   { "date": "Feb 27, 2025", "format": "Happy hour", "place": "Denver", "title": "ETHDenver with Google Cloud", "detail": "A full venue buyout after the previous year's success." },
   { "date": "Mar 7, 2025", "format": "Bounty program", "place": "Online", "title": "PYUSD × Google Cloud bounties", "detail": "A month-long online build program." },
+  { "date": "May 15, 2025", "format": "Happy hour", "place": "Toronto", "title": "Consensus party at the CN Tower", "detail": "With Google Cloud and LayerZero Labs during Consensus 2025.", "link": "https://rsvp.withgoogle.com/events/consensus-toronto-google-cloud-networking-event-2025" },
+  { "date": "May 21, 2025", "format": "Sponsorship", "place": "New York", "title": "Builder Nights: Solana Edition", "detail": "A presenting partner at House of Yes in Brooklyn during Solana Accelerate; 1,100+ went.", "link": "https://luma.com/buildernightsolana" },
   { "date": "Jun 26, 2025", "format": "Meetup", "place": "New York", "title": "Permissionless IV community meetup", "detail": "Co-sponsored with Google Cloud." },
   { "date": "Jun 27, 2025", "format": "Webinars", "place": "Online", "title": "Google Cloud webinar series", "detail": "Biweekly sessions with Google Cloud teams." },
-  { "date": "Oct 8, 2025", "format": "Webinars", "place": "Online", "title": "Stable Club webinar series", "detail": "With LayerZero, Google Cloud, Arbitrum, QuickNode and Stellar.", "image": "10.jpg" }
+  { "date": "Aug 15–17, 2025", "format": "Hackathon", "place": "New York", "title": "ETHGlobal New York", "detail": "PYUSD prize partner. Across the three ETHGlobal hackathons, 128+ projects were built with PYUSD." },
+  { "date": "Sep 26–28, 2025", "format": "Hackathon", "place": "New Delhi", "title": "ETHGlobal New Delhi", "detail": "PYUSD prize partner." },
+  { "date": "Oct 8, 2025", "format": "Webinars", "place": "Online", "title": "Stable Club webinar series", "detail": "With LayerZero, Google Cloud, Arbitrum, QuickNode and Stellar.", "image": "10.jpg" },
+  { "date": "Oct 10–31, 2025", "format": "Hackathon", "place": "Online", "title": "ETHOnline 2025", "detail": "PYUSD prize partner." }
 ]

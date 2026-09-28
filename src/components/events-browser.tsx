@@ -1,8 +1,11 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useRef, useState, useSyncExternalStore, type KeyboardEvent } from "react";
+import { useEffect, useRef, useState, useSyncExternalStore, type CSSProperties, type KeyboardEvent } from "react";
 import type { EventEntry, Spotlight, TimelineItem } from "@/lib/events";
+import type { ProgramMap as ProgramMapData } from "@/lib/program-map";
+import { ModelScene, isModel } from "@/components/model-scene";
+import { ProgramMap } from "@/components/program-map";
 
 const subscribe = (onChange: () => void) => {
   window.addEventListener("hashchange", onChange);
@@ -91,17 +94,24 @@ function HeroLoop({ src, poster }: { src: string; poster: string | null }) {
 
 const ORANGE = "#ff4f1f";
 
-/** Every activation in a program, one row each; rows with a photo show it on hover. */
-function Timeline({ items, label }: { items: TimelineItem[]; label: string | null }) {
+/**
+ * Every activation in a program, one row each; rows with a photo show it on
+ * hover. With a map, the map plays the program first and hovering a row
+ * shows that stop on it.
+ */
+function Timeline({ items, label, map }: { items: TimelineItem[]; label: string | null; map: ProgramMapData | null }) {
+  const [active, setActive] = useState<number | null>(null);
   return (
     <section aria-label="Timeline" className="mt-14">
       <h3 className="font-mono text-[0.6rem] tracking-[0.1em] text-muted uppercase">
-        {label ?? `Timeline · ${items.length} activations`}
+        {label ?? `Timeline · ${items.length} events`}
       </h3>
-      <ol className="mt-5 border-t border-foreground/15">
+      {map && <ProgramMap map={map} items={items} active={active} />}
+      <ol className="mt-5 border-t border-foreground/15" onMouseLeave={() => setActive(null)}>
         {items.map((item, i) => (
           <li
             key={`${item.date}-${item.title}`}
+            onMouseEnter={() => map && setActive(i)}
             className="group relative grid grid-cols-[2rem_1fr] gap-x-3 border-b border-foreground/15 py-4 sm:grid-cols-[2rem_7.5rem_1fr_auto] sm:gap-x-5"
           >
             <span className="font-mono text-[0.6rem] tracking-[0.08em] text-muted">{String(i + 1).padStart(2, "0")}</span>
@@ -115,7 +125,11 @@ function Timeline({ items, label }: { items: TimelineItem[]; label: string | nul
                 ) : (
                   item.title
                 )}
-                {item.link && <span className="font-mono text-[0.58rem] tracking-[0.08em] text-muted uppercase">Watch ↗</span>}
+                {item.link && (
+                  <span className="font-mono text-[0.58rem] tracking-[0.08em] text-muted uppercase">
+                    {/youtu\.?be|vimeo/.test(item.link) ? "Watch ↗" : "Event page ↗"}
+                  </span>
+                )}
                 {item.image && (
                   <span aria-hidden className="size-1.5 translate-y-[-0.1em] self-center rounded-full" style={{ backgroundColor: ORANGE }} />
                 )}
@@ -149,7 +163,11 @@ function SpotlightSection({ spotlight }: { spotlight: Spotlight }) {
       <h3 className="mt-3 text-[clamp(1.5rem,2.4vw,2.1rem)] leading-tight tracking-[-0.01em]">{spotlight.title}</h3>
       <p className="mt-4 max-w-[60ch] text-[0.95rem] leading-[1.7]">{spotlight.text}</p>
 
-      <ol className="mt-8 grid gap-4 sm:grid-cols-3 sm:gap-0">
+      {spotlight.steps.length > 0 && (
+      <ol
+        className="mt-8 grid gap-4 sm:grid-cols-[repeat(var(--steps),minmax(0,1fr))] sm:gap-0"
+        style={{ "--steps": spotlight.steps.length } as CSSProperties}
+      >
         {spotlight.steps.map((step, i) => (
           <li key={step.title} className="relative sm:pr-10">
             <span
@@ -170,20 +188,25 @@ function SpotlightSection({ spotlight }: { spotlight: Spotlight }) {
           </li>
         ))}
       </ol>
+      )}
 
       {spotlight.images.length > 0 && (
-        <div className="mt-8 grid grid-cols-2 items-start gap-3">
-          {spotlight.images.map((img) => (
-            <Image
-              key={img.src}
-              src={img.src}
-              alt=""
-              width={img.width}
-              height={img.height}
-              sizes="(max-width: 640px) 50vw, 30vw"
-              className="h-auto w-full rounded-[4px]"
-            />
-          ))}
+        <div className={`mt-8 grid items-start gap-3 ${spotlight.images.length > 1 ? "grid-cols-2" : ""}`}>
+          {spotlight.images.map((img, i) => {
+            // With an odd number of photos, the first leads at full width
+            const wide = spotlight.images.length % 2 === 1 && i === 0;
+            return (
+              <Image
+                key={img.src}
+                src={img.src}
+                alt=""
+                width={img.width}
+                height={img.height}
+                sizes={wide ? "(max-width: 768px) 100vw, 60vw" : "(max-width: 640px) 50vw, 30vw"}
+                className={`h-auto w-full rounded-[4px] ${wide ? "col-span-2" : ""}`}
+              />
+            );
+          })}
         </div>
       )}
     </section>
@@ -193,11 +216,12 @@ function SpotlightSection({ spotlight }: { spotlight: Spotlight }) {
 function EventDetail({ event }: { event: EventEntry }) {
   const dialogRef = useRef<HTMLDialogElement>(null);
   const [viewing, setViewing] = useState<number | "film">(0);
-  // With a loop up top, every photo goes in the gallery; otherwise the first photo is the hero
-  const heroImage = event.loop ? null : event.images[0];
-  // Photos already shown in the spotlight aren't repeated in the gallery
-  const inSpotlight = new Set(event.spotlight?.images.map((img) => img.src));
-  const gallery = (event.loop ? event.images : event.images.slice(1)).filter((img) => !inSpotlight.has(img.src));
+  // With a loop or a 3D scene up top, every photo goes in the gallery; otherwise the first photo is the hero
+  const heroTaken = Boolean(event.loop || event.scene);
+  const heroImage = heroTaken ? null : event.images[0];
+  // Photos already shown in a spotlight aren't repeated in the gallery
+  const inSpotlight = new Set(event.spotlights.flatMap((s) => s.images.map((img) => img.src)));
+  const gallery = (heroTaken ? event.images : event.images.slice(1)).filter((img) => !inSpotlight.has(img.src));
 
   function open(target: number | "film") {
     setViewing(target);
@@ -252,9 +276,28 @@ function EventDetail({ event }: { event: EventEntry }) {
         </p>
       )}
 
-      <div className="relative mt-8 aspect-[16/9] overflow-hidden bg-highlight">
+      {/* A 3D scene brings its own dark hall, so the frame starts that colour rather than grey */}
+      <div className={`relative mt-8 aspect-[16/9] overflow-hidden ${event.scene ? "bg-[#05060d]" : "bg-highlight"}`}>
         {event.loop ? (
           <HeroLoop src={event.loop} poster={event.poster} />
+        ) : isModel(event.scene) ? (
+          <ModelScene
+            model={event.scene}
+            label={`3D render of the ${event.title} booth`}
+            tone="dark"
+            fallback={
+              event.images[0] && (
+                <Image
+                  src={event.images[0].src}
+                  alt=""
+                  fill
+                  loading="eager"
+                  sizes="(max-width: 768px) 100vw, 62vw"
+                  className="object-cover"
+                />
+              )
+            }
+          />
         ) : heroImage ? (
           <button type="button" onClick={() => open(0)} aria-label="View image full screen" className="group absolute inset-0">
             <Image
@@ -305,8 +348,10 @@ function EventDetail({ event }: { event: EventEntry }) {
         </div>
       )}
 
-      {event.timeline.length > 0 && <Timeline items={event.timeline} label={event.timelineLabel} />}
-      {event.spotlight && <SpotlightSection spotlight={event.spotlight} />}
+      {event.timeline.length > 0 && <Timeline items={event.timeline} label={event.timelineLabel} map={event.map} />}
+      {event.spotlights.map((spotlight) => (
+        <SpotlightSection key={spotlight.title} spotlight={spotlight} />
+      ))}
 
       {event.parts.length > 0 && (
         <section aria-label="What we built" className="mt-14">

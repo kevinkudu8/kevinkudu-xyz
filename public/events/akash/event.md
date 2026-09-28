@@ -1,15 +1,13 @@
 ---
-title: Akash
+title: Akash Accelerate
 order: 6
 client: Akash Network
-role: Event producer
-location: Paris
-year: 2025
-stats: 600 = Attendees; 25 = Speakers; 1 = Day; 1.2M = Reach
-sample: true
-hidden: true
+role: Event execution
+location: Austin
+year: 2024
+parts: Venue = Sourced and secured the venue.; On-site logistics = Ran logistics on the day.; Branding and signage = Oversaw branding and signage across the venue.; Custom swag = Coordinated the production of swag for the team and attendees.
 ---
 
-Sample write-up. Two or three sentences on what the event was, who it was for, and what you did: the brief, the idea, and how it came together.
+Akash Accelerate 2024 was Akash Network's first builder summit: a full day of keynotes, panels and networking in Austin on May 28, 2024, the day before Consensus. It brought the Akash community, developers and partners together and positioned Akash as a leading force in decentralized infrastructure.
 
-A second short paragraph for results and what made it work. The numbers above carry most of the weight, so this can stay brief.
+I supported execution end to end: sourcing and securing the venue, managing on-site logistics, overseeing branding and signage, and coordinating custom swag for the team and attendees. The aim was a seamless day that reflected the brand's technical edge and community-first ethos.

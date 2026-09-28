@@ -1,0 +1,7 @@
+{
+  "label": "Editions",
+  "items": [
+    { "date": "Jul 9, 2024", "format": "Summit", "place": "Brussels", "title": "OpenFi at EthCC", "detail": "The first edition, at Beursschouwburg: 600+ attendees and 36 speakers, ending in a rooftop soirée. 1,539 registered.", "image": "08.jpg", "link": "https://luma.com/OpenFi" },
+    { "date": "Nov 12, 2024", "format": "Summit", "place": "Bangkok", "title": "OpenFi at Devcon", "detail": "Six panels and six keynotes at The Siam Society. 1,936 registered.", "image": "02.jpg", "link": "https://luma.com/openfibangkok" }
+  ]
+}

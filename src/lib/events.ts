@@ -2,6 +2,7 @@ import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
 import { join } from "node:path";
 import { cacheLife } from "next/cache";
 import { parseFrontmatter } from "@/lib/frontmatter";
+import { programMap, type ProgramMap } from "@/lib/program-map";
 
 // Each event is a folder in public/events: event.md plus images (see the
 // README there). The folder name is the event's link.
@@ -27,11 +28,15 @@ export type EventEntry = {
   poster: string | null;
   /** The full film, played on request */
   film: string | null;
+  /** A 3D model shown in place of the first photo, e.g. "pyusd-booth" */
+  scene: string | null;
   /** Optional timeline.json: every activation in a long-running program */
   timeline: TimelineItem[];
   timelineLabel: string | null;
-  /** Optional spotlight.json: one piece of work told step by step */
-  spotlight: Spotlight | null;
+  /** Optional (`map: true`): the timeline's places on a world map */
+  map: ProgramMap | null;
+  /** Optional spotlight.json (one, or a list): pieces of work told step by step */
+  spotlights: Spotlight[];
 };
 
 export type TimelineItem = {
@@ -49,6 +54,7 @@ export type Spotlight = {
   label: string;
   title: string;
   text: string;
+  /** Optional numbered steps */
   steps: { title: string; text: string }[];
   images: { src: string; width: number; height: number }[];
 };
@@ -147,12 +153,14 @@ export async function getEvents(version: string): Promise<EventEntry[]> {
           loop: existsSync(join(dir, "loop.mp4")) ? `/events/${slug}/loop.mp4` : null,
           poster: existsSync(join(dir, "poster.jpg")) ? `/events/${slug}/poster.jpg` : null,
           film: existsSync(join(dir, "film.mp4")) ? `/events/${slug}/film.mp4` : null,
+          scene: meta.scene || null,
           ...(() => {
             // timeline.json is a list of items, or { label, items }
             type RawItem = Omit<TimelineItem, "image" | "link"> & { image?: string; link?: string };
             const raw = readJson<RawItem[] | { label?: string; items: RawItem[] }>(join(dir, "timeline.json"));
             const items = Array.isArray(raw) ? raw : (raw?.items ?? []);
             return {
+              map: meta.map === "true" && items.length ? programMap(items) : null,
               timelineLabel: Array.isArray(raw) ? null : (raw?.label ?? null),
               timeline: items.map((item) => ({
                 ...item,
@@ -161,11 +169,14 @@ export async function getEvents(version: string): Promise<EventEntry[]> {
               })),
             };
           })(),
-          spotlight: (() => {
-            const raw = readJson<Omit<Spotlight, "images"> & { images?: string[] }>(join(dir, "spotlight.json"));
-            return raw
-              ? { ...raw, images: (raw.images ?? []).map((f) => ({ src: `/events/${slug}/${f}`, ...imageSize(join(dir, f)) })) }
-              : null;
+          spotlights: (() => {
+            type RawSpotlight = Omit<Spotlight, "images" | "steps"> & { images?: string[]; steps?: Spotlight["steps"] };
+            const raw = readJson<RawSpotlight | RawSpotlight[]>(join(dir, "spotlight.json"));
+            return [raw ?? []].flat().map((s) => ({
+              ...s,
+              steps: s.steps ?? [],
+              images: (s.images ?? []).map((f) => ({ src: `/events/${slug}/${f}`, ...imageSize(join(dir, f)) })),
+            }));
           })(),
         },
       };

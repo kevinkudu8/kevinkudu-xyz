@@ -1,15 +1,13 @@
 ---
-title: OpenFi Summits
+title: OpenFi
 order: 7
-client: OpenFi
-role: Summit organiser
-location: Lisbon
-year: 2025
-stats: 900 = Attendees; 50 = Speakers; 2 = Days; 30 = Partners
-sample: true
-hidden: true
+client: idOS · Aleph Zero
+role: Creative, production and content
+location: Brussels · Bangkok
+year: 2024
+stats: 2 = Editions; 3,400+ = Registrations; 36 = Speakers in Brussels; 12 = Panels and keynotes in Bangkok
 ---
 
-Sample write-up. Two or three sentences on what the event was, who it was for, and what you did: the brief, the idea, and how it came together.
+OpenFi is a summit series about bringing DeFi into everyday life: the infrastructure behind self-custodial accounts, debit cards and savings that connects decentralized tools with mainstream financial apps. It launched in Brussels during EthCC in July 2024 and came to Bangkok during Devcon that November.
 
-A second short paragraph for results and what made it work. The numbers above carry most of the weight, so this can stay brief.
+Brussels ran from a networking lunch through an afternoon of panels and keynotes to a rooftop soirée, hosted by idOS, Aleph Zero, Safe, Mento Labs, Celo, Radix, Monerium and Common. Bangkok, hosted by idOS, Aleph Zero and Kwil at The Siam Society, brought six panels and six keynotes with speakers from Circle, Venmo, NEAR, MetaMask, Solana Foundation, Gnosis Pay and Stellar.
