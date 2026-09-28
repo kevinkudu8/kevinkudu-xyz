@@ -108,7 +108,7 @@ export function TiltPortrait({
         style={{ boxShadow: REST_SHADOW }}
         className="relative h-full w-full overflow-hidden rounded-[inherit] [isolation:isolate] will-change-transform"
       >
-        <div ref={photoRef} className="h-full w-full will-change-transform">
+        <div ref={photoRef} className="relative h-full w-full will-change-transform">
           {children}
         </div>
         <span
