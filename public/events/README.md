@@ -19,6 +19,7 @@ One folder per event. The folder name becomes the link (`/events#folder-name`).
     year: 2024
     stats: 1,650 = Sign-ups; 2,750 = Branded items; 22M = Impressions; 3 = Days
     sample: true        (shows a "Sample content" tag; delete once details are real)
+    hidden: true        (optional: leaves the event off the site; delete to show it again)
     ---
 
     First paragraph of the write-up.

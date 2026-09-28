@@ -127,6 +127,7 @@ export async function getEvents(version: string): Promise<EventEntry[]> {
       const files = readdirSync(dir);
       const md = files.includes("event.md") ? readFileSync(join(dir, "event.md"), "utf8") : "";
       const { meta, paragraphs } = parseFrontmatter(md);
+      if (meta.hidden === "true") return null;
       return {
         order: Number(meta.order ?? Infinity),
         entry: {
@@ -169,6 +170,7 @@ export async function getEvents(version: string): Promise<EventEntry[]> {
         },
       };
     })
+    .filter((event) => event !== null)
     .sort((a, b) => a.order - b.order || a.entry.title.localeCompare(b.entry.title))
     .map(({ entry }) => entry);
 }

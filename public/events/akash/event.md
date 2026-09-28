@@ -7,6 +7,7 @@ location: Paris
 year: 2025
 stats: 600 = Attendees; 25 = Speakers; 1 = Day; 1.2M = Reach
 sample: true
+hidden: true
 ---
 
 Sample write-up. Two or three sentences on what the event was, who it was for, and what you did: the brief, the idea, and how it came together.
