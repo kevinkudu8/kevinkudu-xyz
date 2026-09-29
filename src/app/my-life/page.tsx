@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
-import { RunBadge } from "@/components/run-badge";
-import { RunMap } from "@/components/run-map";
-import { RunMilestones } from "@/components/run-milestones";
+import { RunOverview } from "@/components/run-overview";
+import { RunRoutes } from "@/components/run-routes";
 import { RunRecords } from "@/components/run-records";
 import { Shelf } from "@/components/shelf";
 import { TravelMap } from "@/components/travel-map";
@@ -30,7 +29,7 @@ export default async function MyLifePage() {
     id: f.href,
     title: f.title,
     byline: f.year ? String(f.year) : "",
-    meta: f.watched ? `Watched ${f.watched.slice(0, 4)}` : "",
+    meta: "",
     favourite: f.rating === 5,
     image: f.poster,
     imageUnoptimized: true, // TMDB already serves sized images
@@ -51,10 +50,9 @@ export default async function MyLifePage() {
           films={filmItems}
           running={
             <>
-              <RunMap />
-              <RunBadge />
+              <RunOverview />
+              <RunRoutes />
               <RunRecords />
-              <RunMilestones />
             </>
           }
           travel={
@@ -64,6 +62,10 @@ export default async function MyLifePage() {
             </>
           }
         />
+        {/* Credits the data licences require: TMDB's terms and OpenStreetMap's ODbL */}
+        <p className="mt-24 font-mono text-[0.55rem] leading-relaxed tracking-[0.08em] text-muted/70 uppercase">
+          Film posters from TMDB (not endorsed or certified by TMDB) · Map data © OpenStreetMap contributors
+        </p>
       </div>
     </main>
   );

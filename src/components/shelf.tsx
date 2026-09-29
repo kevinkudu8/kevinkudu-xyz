@@ -110,10 +110,17 @@ export function Shelf({
                 </div>
 
                 {shown.length ? (
-                  <ul className="mt-12 grid grid-cols-2 justify-center gap-x-6 gap-y-12 sm:grid-cols-[repeat(3,clamp(8.5rem,12vw,12.5rem))] sm:gap-x-10 lg:grid-cols-[repeat(4,clamp(8.5rem,12vw,12.5rem))] lg:gap-x-[clamp(2rem,3.5vw,4rem)] lg:gap-y-16">
-                    {shown.slice(0, visible).map((item) => (
-                      <Card key={item.id} item={item} book={t.id === "books"} />
-                    ))}
+                  <ul
+                    className={
+                      t.id === "movies"
+                        ? // Posters sit small in square cells, divided by hairlines (the gap shows the line colour)
+                          "mt-10 grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-6"
+                        : "mt-12 grid grid-cols-2 justify-center gap-x-6 gap-y-12 sm:grid-cols-[repeat(3,clamp(8.5rem,12vw,12.5rem))] sm:gap-x-10 lg:grid-cols-[repeat(4,clamp(8.5rem,12vw,12.5rem))] lg:gap-x-[clamp(2rem,3.5vw,4rem)] lg:gap-y-16"
+                    }
+                  >
+                    {shown.slice(0, visible).map((item) =>
+                      t.id === "movies" ? <PosterCell key={item.id} item={item} /> : <Card key={item.id} item={item} book />,
+                    )}
                   </ul>
                 ) : (
                   <Empty>
@@ -133,16 +140,6 @@ export function Shelf({
                   </div>
                 )}
 
-                {t.id === "movies" && (
-                  <p className="mt-16 max-w-prose font-mono text-[0.6rem] leading-relaxed tracking-[0.08em] text-muted uppercase">
-                    Logged on{" "}
-                    <a href="https://letterboxd.com/kevinkudu/" target="_blank" rel="me noreferrer" className="underline decoration-dotted underline-offset-2 hover:text-foreground">
-                      Letterboxd
-                    </a>
-                    . Posters from TMDB. This product uses the TMDB API but is not endorsed or
-                    certified by TMDB.
-                  </p>
-                )}
               </>
             ) : t.id === "running" ? (
               running
@@ -261,6 +258,63 @@ function Card({ item, book }: { item: ShelfItem; book: boolean }) {
           {object}
           {caption}
         </>
+      )}
+    </li>
+  );
+}
+
+/**
+ * A film poster, small and centred in a square cell, like prints laid out on
+ * a table. Its title, year and watch date appear below it on hover or focus.
+ */
+function PosterCell({ item }: { item: ShelfItem }) {
+  const poster = (
+    <div className="relative aspect-[2/3] w-full overflow-hidden rounded-[2px] bg-highlight shadow-[0_1px_0_rgb(0_0_0/0.04),0_14px_24px_-16px_rgb(0_0_0/0.55)] transition-transform duration-500 ease-[cubic-bezier(0.2,0.7,0.2,1)] group-hover:-translate-y-1 group-focus-visible:-translate-y-1 motion-reduce:transition-none">
+      {item.image ? (
+        <Image
+          src={item.image}
+          alt={`Poster for ${item.title}`}
+          fill
+          sizes="(max-width: 640px) 26vw, 10rem"
+          unoptimized={item.imageUnoptimized}
+          className="object-cover"
+        />
+      ) : (
+        <span className="flex h-full items-center p-2 text-center font-mono text-[0.5rem] leading-snug tracking-[0.06em] uppercase">
+          {item.title}
+        </span>
+      )}
+    </div>
+  );
+  // The details sit in reserved space below the poster, out of sight until
+  // hovered or focused, so the grid never shifts
+  const details = (
+    <span className="mt-3 block min-h-[3.4rem] w-full px-1.5 text-center opacity-0 transition-opacity duration-300 group-hover:opacity-100 group-focus-visible:opacity-100">
+      <span className="line-clamp-2 text-[0.72rem] leading-snug font-medium">{item.title}</span>
+      <span className="mt-0.5 block font-mono text-[0.52rem] leading-relaxed tracking-[0.08em] text-muted uppercase">
+        {[item.byline, item.meta].filter(Boolean).join(" · ")}
+      </span>
+    </span>
+  );
+  const cell = "group flex flex-col items-center px-2 pt-[10%] pb-[4%]";
+  return (
+    <li className="flex">
+      {item.href ? (
+        <a
+          href={item.href}
+          target="_blank"
+          rel="noreferrer"
+          aria-label={`${item.title}${item.byline ? ` (${item.byline})` : ""} on Letterboxd`}
+          className={`${cell} w-full focus-visible:-outline-offset-4`}
+        >
+          <span className="block w-[67%]">{poster}</span>
+          {details}
+        </a>
+      ) : (
+        <div className={`${cell} w-full`}>
+          <span className="block w-[67%]">{poster}</span>
+          {details}
+        </div>
       )}
     </li>
   );

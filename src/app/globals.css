@@ -50,6 +50,11 @@
   --spacing-gutter: clamp(1.5rem, 6.25vw, 7.5rem);
 }
 
+/* In-page links land below the sticky header */
+html {
+  scroll-padding-top: 8rem;
+}
+
 body {
   background: var(--background);
   transition: background-color 0.3s ease, color 0.3s ease;

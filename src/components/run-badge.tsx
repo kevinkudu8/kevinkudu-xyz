@@ -6,16 +6,12 @@ const fmt = (n: number, digits = 0) =>
 
 /** Lifetime distance card, coloured by Nike Run Club level. */
 export function RunBadge() {
-  const { km, miles, asOf, level, progress, goal } = getRunning();
-  const updated = new Date(`${asOf}T00:00:00`).toLocaleDateString("en-US", {
-    month: "short",
-    year: "numeric",
-  });
+  const { km, level, progress, goal } = getRunning();
 
   return (
-    <div className="mt-12 max-w-[26rem]">
+    <div className="w-full">
       <div
-        className="flex aspect-[1.63] flex-col justify-between rounded-[14px] p-[7%] shadow-[0_24px_48px_-28px_rgb(0_0_0/0.45)]"
+        className="flex aspect-[1.63] h-full w-full flex-col justify-between rounded-[14px] p-[7%] shadow-[0_24px_48px_-28px_rgb(0_0_0/0.45)]"
         style={{ backgroundColor: level.bg, color: level.fg }}
       >
         <div className="flex items-start justify-between">
@@ -61,9 +57,6 @@ export function RunBadge() {
         </div>
       </div>
 
-      <p className="mt-5 font-mono text-[0.6rem] leading-relaxed tracking-[0.08em] text-muted uppercase">
-        {fmt(Math.floor(miles))} miles · logged on Nike Run Club · updated {updated}
-      </p>
     </div>
   );
 }

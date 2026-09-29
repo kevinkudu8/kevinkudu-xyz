@@ -90,14 +90,20 @@ export function TravelStatsView({ stats }: { stats: TravelStats }) {
 
       <CountriesGrid visited={stats.countries.visited} of={stats.countries.of} seen={seen} />
 
-      <div className="mt-16 grid gap-4 md:grid-cols-3">
-        <Card figure={<EarthFigure />} value={`${stats.earthLaps.toFixed(1)}×`} caption="Around the Earth"
-          note={`${fmt(stats.reference.earthKm)} km a lap`} />
-        <Card figure={<MoonFigure share={stats.moonShare} seen={seen} />} value={`${Math.round(stats.moonShare * 100)}%`}
-          caption="Of the way to the Moon" note={`${fmt(stats.reference.moonKm)} km away`} />
-        <Card figure={<SunFigure share={stats.sunShare} seen={seen} />} value={`${(stats.sunShare * 100).toFixed(1)}%`}
-          caption="Of a lap around the Sun" note={`${fmt(stats.reference.sunKm)} km around`} />
-      </div>
+      <section className="mt-16 border-t border-foreground/15 pt-8" aria-labelledby="distance-travelled">
+        <h3 id="distance-travelled" className="font-mono text-[0.625rem] tracking-[0.1em] text-muted uppercase">
+          Distance travelled
+        </h3>
+        <p className="mt-2 text-sm text-muted">Every kilometre flown, measured against the Earth, the Moon and the Sun.</p>
+        <div className="mt-8 grid gap-4 md:grid-cols-3">
+          <Card figure={<EarthFigure />} value={`${stats.earthLaps.toFixed(1)}×`} caption="Around the Earth"
+            note={`${fmt(stats.reference.earthKm)} km a lap`} />
+          <Card figure={<MoonFigure share={stats.moonShare} seen={seen} />} value={`${Math.round(stats.moonShare * 100)}%`}
+            caption="Of the way to the Moon" note={`${fmt(stats.reference.moonKm)} km away`} />
+          <Card figure={<SunFigure share={stats.sunShare} seen={seen} />} value={`${(stats.sunShare * 100).toFixed(1)}%`}
+            caption="Of a lap around the Sun" note={`${fmt(stats.reference.sunKm)} km around`} />
+        </div>
+      </section>
 
       <p className="mt-12 font-mono text-[0.6rem] tracking-[0.08em] text-muted uppercase">
         All-time, from Flighty · updated{" "}

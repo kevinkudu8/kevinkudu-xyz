@@ -1,4 +1,6 @@
 import data from "@/data/running.json";
+import runs from "@/data/runs.json";
+import highlights from "@/data/run-highlights.json";
 
 // Nike Run Club levels by lifetime kilometres. Each level is split into four
 // equal stretches; the three boundaries inside it are milestones.
@@ -36,5 +38,15 @@ export function getRunning() {
 }
 
 export function getRunningStats() {
-  return { records: data.records, monthly: data.monthly, streaks: data.streaks, asOf: data.asOf };
+  return { records: data.records, asOf: data.asOf };
+}
+
+/** Headline totals across every run. */
+export function getRunTotals() {
+  const seconds = runs.reduce((sum, run) => sum + run.seconds, 0);
+  return {
+    runs: runs.length,
+    hours: Math.round(seconds / 3600),
+    countries: new Set(highlights.map((h) => h.country)).size,
+  };
 }

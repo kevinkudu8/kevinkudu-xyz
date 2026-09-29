@@ -31,7 +31,7 @@ export function EventsBrowser({ events, intro }: { events: EventEntry[]; intro: 
 
   return (
     <div className="grid gap-14 md:grid-cols-[minmax(13rem,18rem)_1fr] md:gap-[clamp(3rem,7vw,7.5rem)]">
-      <aside className="self-start md:sticky md:top-10">
+      <aside className="self-start md:sticky md:top-32">
         <h1 className="font-mono text-[0.75rem] font-bold tracking-[0.1em] uppercase">Events and Experiential</h1>
         <p className="mt-4 max-w-[17rem] text-sm leading-relaxed text-muted">{intro}</p>
 
@@ -61,7 +61,7 @@ export function EventsBrowser({ events, intro }: { events: EventEntry[]; intro: 
         </nav>
       </aside>
 
-      <div ref={detailRef} className="min-w-0 scroll-mt-6">
+      <div ref={detailRef} className="min-w-0 scroll-mt-32">
         <EventDetail key={selected.slug} event={selected} />
       </div>
     </div>

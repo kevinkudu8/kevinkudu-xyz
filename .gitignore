@@ -57,3 +57,6 @@ next-env.d.ts
 
 # ETHGlobal raw photos (the site uses resized copies)
 /design/ETHGlobal Portfolio*/
+
+# Nike Run Club raw activities and full GPX (GPS shows home; never commit)
+/.nike/
