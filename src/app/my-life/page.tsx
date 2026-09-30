@@ -23,6 +23,7 @@ export default async function MyLifePage() {
     image: b.cover,
     aspect: b.aspect,
     imageUnoptimized: b.cover?.startsWith("/covers/"),
+    group: b.fiction === null ? null : b.fiction ? "Fiction" : "Non-fiction",
   }));
 
   const filmItems: ShelfItem[] = films.map((f) => ({
@@ -30,10 +31,11 @@ export default async function MyLifePage() {
     title: f.title,
     byline: f.year ? String(f.year) : "",
     meta: "",
-    favourite: f.rating === 5,
+    favourite: (f.rating ?? 0) >= 4.5,
     image: f.poster,
     imageUnoptimized: true, // TMDB already serves sized images
     href: f.href,
+    group: f.year ? `${Math.floor(f.year / 10) * 10}s` : null,
   }));
 
   return (

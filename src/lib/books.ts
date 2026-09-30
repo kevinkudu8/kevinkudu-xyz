@@ -1,5 +1,6 @@
 import { cacheLife } from "next/cache";
 import coverIds from "@/data/book-covers.json";
+import bookTypes from "@/data/book-types.json";
 import { airtableConfig, airtableTableId, isBuild, listRecords } from "@/lib/airtable";
 
 export type Book = {
@@ -9,6 +10,8 @@ export type Book = {
   rating: number | null;
   year: number | null;
   favourite: boolean;
+  /** From src/data/book-types.json; null for a book added since it was last updated */
+  fiction: boolean | null;
   cover: string | null;
   /** Cover width / height, when known, so it can be drawn uncropped */
   aspect: number | null;
@@ -31,6 +34,7 @@ const PLACEHOLDER_DATE = "2021-01-01";
 
 type KnownCover = { id: number; w?: number; h?: number } | null;
 const knownCovers: Record<string, KnownCover> = coverIds;
+const types: Record<string, { title: string; type: string }> = bookTypes;
 const openLibraryCover = (id: number) => `https://covers.openlibrary.org/b/id/${id}-L.jpg`;
 const tidy = (s = "") => s.replace(/\s+/g, " ").replace(/ ,/g, ",").trim();
 
@@ -89,6 +93,7 @@ export async function getBooks(): Promise<Book[]> {
         rating: Number.isFinite(rating) ? rating : null,
         year: date ? Number(date.slice(0, 4)) : null,
         favourite: Boolean(f.Favourites),
+        fiction: id in types ? types[id].type === "fiction" : null,
         cover,
         aspect,
       };

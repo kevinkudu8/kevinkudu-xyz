@@ -1,19 +1,47 @@
 "use client";
 
 import Image from "next/image";
-import { useState, type KeyboardEvent, type ReactNode } from "react";
+import { useMemo, useState, useSyncExternalStore, type KeyboardEvent, type ReactNode } from "react";
 import type { ShelfItem } from "@/lib/shelf-item";
 
 const PAGE = 24;
 
 const tabs = [
-  { id: "books", label: "Bookshelf", noun: ["book", "books"] },
-  { id: "movies", label: "Movie shelf", noun: ["film", "films"] },
+  { id: "books", label: "Bookshelf", noun: ["book", "books"], groups: "Type" },
+  { id: "movies", label: "Movie shelf", noun: ["film", "films"], groups: "Decade" },
   { id: "running", label: "Running" },
   { id: "travel", label: "Travel" },
 ] as const;
 
 type TabId = (typeof tabs)[number]["id"];
+
+// One random number per page load, for shuffling the movie favourites. Read
+// through useSyncExternalStore so the server render (unshuffled) hydrates
+// cleanly and the client then shows its own order.
+const pageSeed = typeof window === "undefined" ? 0 : Math.random() * 2 ** 32;
+const readSeed = () => pageSeed;
+const noSubscribe = () => () => {};
+
+/** A seeded Fisher–Yates shuffle, so the order holds steady while the page is open. */
+function shuffled<T>(items: T[], seed: number): T[] {
+  if (!seed) return items;
+  const out = [...items];
+  let s = seed >>> 0;
+  const rand = () => {
+    s = (s + 0x6d2b79f5) >>> 0;
+    let t = Math.imul(s ^ (s >>> 15), 1 | s);
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+  for (let i = out.length - 1; i > 0; i--) {
+    const j = Math.floor(rand() * (i + 1));
+    [out[i], out[j]] = [out[j], out[i]];
+  }
+  return out;
+}
+
+// Decades newest first; book types in a fixed order
+const groupOrder = (a: string, b: string) => (/^\d/.test(a) ? b.localeCompare(a) : a.localeCompare(b));
 
 export function Shelf({
   books,
@@ -28,9 +56,19 @@ export function Shelf({
 }) {
   const [tab, setTab] = useState<TabId>("books");
   const [favouritesOnly, setFavouritesOnly] = useState(true);
+  const [group, setGroup] = useState<Partial<Record<TabId, string | null>>>({});
   const [visible, setVisible] = useState(PAGE);
+  const seed = useSyncExternalStore(noSubscribe, readSeed, () => 0);
 
-  const items: Partial<Record<TabId, ShelfItem[]>> = { books, movies: films };
+  // Movie favourites come in a random order each visit
+  const shuffledFilms = useMemo(() => {
+    const favourites = shuffled(
+      films.filter((f) => f.favourite),
+      seed,
+    );
+    return [...favourites, ...films.filter((f) => !f.favourite)];
+  }, [films, seed]);
+  const items: Partial<Record<TabId, ShelfItem[]>> = { books, movies: shuffledFilms };
 
   function select(next: TabId) {
     setTab(next);
@@ -41,6 +79,12 @@ export function Shelf({
     setFavouritesOnly(favourites);
     setVisible(PAGE);
   }
+
+  function pickGroup(id: TabId, value: string | null) {
+    setGroup((g) => ({ ...g, [id]: value }));
+    setVisible(PAGE);
+  }
+
 
   // Left/right arrows move between tabs, per the WAI-ARIA tabs pattern
   function onTabKey(event: KeyboardEvent<HTMLButtonElement>, index: number) {
@@ -85,7 +129,12 @@ export function Shelf({
 
       {tabs.map((t) => {
         const all = items[t.id];
-        const shown = all && favouritesOnly ? all.filter((item) => item.favourite) : all;
+        const pool = all && favouritesOnly ? all.filter((item) => item.favourite) : all;
+        // Only groups with something in the current view (a decade with no favourites isn't offered)
+        const groups = pool ? [...new Set(pool.map((item) => item.group).filter((g): g is string => !!g))].sort(groupOrder) : [];
+        const chosen = group[t.id] ?? null;
+        const active = chosen && groups.includes(chosen) ? chosen : null;
+        const shown = pool && active ? pool.filter((item) => item.group === active) : pool;
         return (
           <section
             key={t.id}
@@ -96,7 +145,7 @@ export function Shelf({
           >
             {all && shown && "noun" in t ? (
               <>
-                <div className="mt-6 flex items-center gap-3 font-mono text-[0.625rem] tracking-[0.1em] uppercase">
+                <div className="mt-6 flex flex-wrap items-center gap-3 font-mono text-[0.625rem] tracking-[0.1em] uppercase">
                   <span className="text-muted">Filter:</span>
                   <FilterPill active={favouritesOnly} onClick={() => filter(true)}>
                     Favourites
@@ -104,10 +153,20 @@ export function Shelf({
                   <FilterPill active={!favouritesOnly} onClick={() => filter(false)}>
                     All
                   </FilterPill>
+                  {groups.length > 1 && (
+                    <FilterSelect
+                      label={t.groups}
+                      value={active}
+                      options={groups}
+                      onChange={(value) => pickGroup(t.id, value)}
+                    />
+                  )}
                   <span className="ml-auto text-muted">
                     {shown.length} {t.noun[shown.length === 1 ? 0 : 1]}
+                    {t.id === "movies" && favouritesOnly && " · in random order"}
                   </span>
                 </div>
+
 
                 {shown.length ? (
                   <ul
@@ -119,12 +178,20 @@ export function Shelf({
                     }
                   >
                     {shown.slice(0, visible).map((item) =>
-                      t.id === "movies" ? <PosterCell key={item.id} item={item} /> : <Card key={item.id} item={item} book />,
+                      t.id === "movies" ? (
+                        <PosterCell key={item.id} item={item} />
+                      ) : (
+                        <Card key={item.id} item={item} book />
+                      ),
                     )}
                   </ul>
                 ) : (
                   <Empty>
-                    {all.length ? "No favourites yet." : "This shelf couldn't be loaded right now."}
+                    {!all.length
+                      ? "This shelf couldn't be loaded right now."
+                      : active
+                        ? `No ${favouritesOnly ? "favourites" : t.noun[1]} from ${active} yet.`
+                        : "No favourites yet."}
                   </Empty>
                 )}
 
@@ -183,6 +250,53 @@ function FilterPill({
     >
       {children}
     </button>
+  );
+}
+
+/**
+ * A dropdown styled like the filter pills: outlined when set to "any",
+ * filled once a value is chosen. A native select, so it works with keyboard
+ * and screen readers, and on phones opens the system picker.
+ */
+function FilterSelect({
+  label,
+  value,
+  options,
+  onChange,
+}: {
+  label: string;
+  value: string | null;
+  options: string[];
+  onChange: (value: string | null) => void;
+}) {
+  const on = value !== null;
+  return (
+    <label
+      className={`relative inline-flex items-center rounded-[3px] border border-foreground transition-colors has-[select:focus-visible]:outline-2 has-[select:focus-visible]:outline-offset-2 ${
+        on ? "bg-foreground text-background" : "hover:bg-foreground/5"
+      }`}
+    >
+      {/* The box is sized by this visible label; the real select sits invisibly over it */}
+      <span aria-hidden className="py-1.5 pr-7 pl-4 whitespace-nowrap">
+        {label}: {value ?? "Any"}
+      </span>
+      <select
+        aria-label={label}
+        value={value ?? ""}
+        onChange={(e) => onChange(e.target.value || null)}
+        className="absolute inset-0 w-full cursor-pointer appearance-none opacity-0 [&_option]:bg-background [&_option]:text-foreground"
+      >
+        <option value="">{`${label}: Any`}</option>
+        {options.map((o) => (
+          <option key={o} value={o}>
+            {`${label}: ${o}`}
+          </option>
+        ))}
+      </select>
+      <svg aria-hidden viewBox="0 0 10 6" className="pointer-events-none absolute right-2.5 w-2 fill-current">
+        <path d="M0 0h10L5 6Z" />
+      </svg>
+    </label>
   );
 }
 
@@ -298,7 +412,7 @@ function PosterCell({ item }: { item: ShelfItem }) {
   );
   const cell = "group flex flex-col items-center px-2 pt-[10%] pb-[4%]";
   return (
-    <li className="flex">
+    <li className="flex" data-shelf-id={item.id}>
       {item.href ? (
         <a
           href={item.href}

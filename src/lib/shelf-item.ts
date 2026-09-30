@@ -11,4 +11,6 @@ export type ShelfItem = {
   /** Serve as-is rather than through the Next image optimizer */
   imageUnoptimized?: boolean;
   href?: string;
+  /** The shelf's second filter: a film's decade ("1990s"), a book's "Fiction" or "Non-fiction" */
+  group?: string | null;
 };
