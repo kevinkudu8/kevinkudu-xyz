@@ -11,4 +11,4 @@ parts: Lounge = A 30×30 ft Moon Tier lounge on the expo floor, with product dem
 
 Robinhood Crypto came to Bitcoin 2025 as a Moon Tier sponsor with one goal: be the brand crypto investors couldn't miss. We built a 30×30 ft lounge in Robinhood's lime green, in the best spot at the show: the first booth every one of the conference's 35,000 attendees passed on the way onto the main floor.
 
-After hours, Robinhood owned the night with the official afterparty across Zouk and the Empire Room. Across three days the booth logged 98,000 passes, and the jerseys were gone before the end.
+After hours, Robinhood owned the night with the official afterparty across Zouk and the Empire Room.
