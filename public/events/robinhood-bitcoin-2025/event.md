@@ -5,7 +5,7 @@ client: Robinhood
 scope: Concept; Creative; Production; Reporting
 location: Las Vegas
 year: 2025
-stats: 35K = Attendees; 98K = Booth passes; 2,575 = Pieces of swag; 166 = Workshop guests
+stats: 35K = Attendees; 2,575 = Pieces of swag; 166 = Workshop guests
 parts: Lounge = A 30×30 ft Moon Tier lounge on the expo floor, with product demos, a merch store and LED branding.; Workshops = Live demos that drew crowds of 50+ at their peak.; Merch = Shirts, bottles, keychains and 75 NBA jerseys, which went faster than planned.; Afterparty = The official afterparty across Zouk and the Empire Room, with VIP access, signature cocktails and step-and-repeats.
 ---
 
