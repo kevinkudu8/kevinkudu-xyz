@@ -7,7 +7,7 @@ location: North America · Asia · Online
 year: 2024–2026
 scene: pyusd-booth
 map: true
-stats: 2 = Years; 18 = Events; 1,000+ = Guests hosted; 128+ = Hackathon projects
+stats: 2 = Years; 18 = Events; 128+ = Hackathon projects
 ---
 
 Over two years I ran PayPal's event program for its stablecoin, PYUSD: happy hours and launch parties, conference sponsorships, a build day at PayPal's head office, hackathons, bounty programs and two webinar series, across North America, Asia and online.
