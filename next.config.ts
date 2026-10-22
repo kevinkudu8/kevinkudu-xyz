@@ -6,7 +6,7 @@ const nextConfig: NextConfig = {
   async redirects() {
     return [
       ["/home-1", "/"],
-      ["/content-1", "/content#commissioned"],
+      ["/content-1", "/content#web3"],
       ["/tracking", "/my-life"],
       ["/circle-arc", "/events#arc-studio"],
       ["/crypto-com", "/events#crypto-com-x-ufc"],

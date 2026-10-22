@@ -7,13 +7,14 @@ const subscribe = (onChange: () => void) => {
   return () => window.removeEventListener("hashchange", onChange);
 };
 
-/** Films / Commissioned toggle; the choice lives in the URL hash so it can be linked. */
+/** Storytelling / Web3 toggle; the choice lives in the URL hash so it can be linked. */
 export function ContentTabs({ films, commissioned }: { films: ReactNode; commissioned: ReactNode }) {
   const hash = useSyncExternalStore(subscribe, () => window.location.hash, () => "");
-  const tab = hash === "#commissioned" ? "commissioned" : "films";
+  // #commissioned is the Web3 tab's old address
+  const tab = hash === "#web3" || hash === "#commissioned" ? "commissioned" : "films";
 
   function select(next: "films" | "commissioned") {
-    history.replaceState(null, "", next === "films" ? location.pathname : "#commissioned");
+    history.replaceState(null, "", next === "films" ? location.pathname : "#web3");
     window.dispatchEvent(new HashChangeEvent("hashchange"));
   }
 
@@ -31,7 +32,7 @@ export function ContentTabs({ films, commissioned }: { films: ReactNode; commiss
               tab === id ? "border-foreground" : "border-transparent text-muted hover:text-foreground"
             }`}
           >
-            {id === "films" ? "Films" : "Commissioned"}
+            {id === "films" ? "Storytelling" : "Web3"}
           </button>
         ))}
       </div>

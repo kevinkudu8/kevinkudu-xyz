@@ -42,27 +42,6 @@
       ]
     },
     {
-      "title": "Interviews & panels",
-      "text": "Live interviews, panels and fireside chats, produced with local production companies hired and directed in each city.",
-      "videos": [
-        {
-          "youtube": "y2SfT8ugjCk",
-          "title": "Vitalik Buterin fireside chat",
-          "meta": "Pragma Waterloo"
-        },
-        {
-          "youtube": "cWkIKxwHjY0",
-          "title": "Growing the Infinite Garden",
-          "meta": "Aya Miyaguchi · Pragma Tokyo"
-        },
-        {
-          "youtube": "Vm9U8OvQgPw",
-          "title": "Polygon & Ethereum panel",
-          "meta": "Pragma Paris"
-        }
-      ]
-    },
-    {
       "title": "Social content",
       "text": "Social campaigns for CoinDesk's Consensus conferences: Hong Kong 2025 and 2026, Toronto and Miami.",
       "videos": [
@@ -112,6 +91,27 @@
           "youtube": "zpTY4ilYinY",
           "title": "FVM Space Warp",
           "meta": "Animation and edit"
+        }
+      ]
+    },
+    {
+      "title": "Interviews & panels",
+      "text": "Live interviews, panels and fireside chats, produced with local production companies hired and directed in each city.",
+      "videos": [
+        {
+          "youtube": "y2SfT8ugjCk",
+          "title": "Vitalik Buterin fireside chat",
+          "meta": "Pragma Waterloo"
+        },
+        {
+          "youtube": "cWkIKxwHjY0",
+          "title": "Growing the Infinite Garden",
+          "meta": "Aya Miyaguchi · Pragma Tokyo"
+        },
+        {
+          "youtube": "Vm9U8OvQgPw",
+          "title": "Polygon & Ethereum panel",
+          "meta": "Pragma Paris"
         }
       ]
     },

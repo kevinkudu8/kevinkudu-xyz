@@ -2,7 +2,7 @@
 
 One folder per film. Order, title and details live in `film.md`.
 
-    public/content/low-tide/
+    public/content/like-water/
       film.md        details and a one- or two-sentence description
       poster.jpg     the still shown on the card (portrait works best)
       preview.mp4    optional: short silent loop that plays on hover
@@ -11,7 +11,7 @@ One folder per film. Order, title and details live in `film.md`.
 `film.md` looks like:
 
     ---
-    title: Low Tide
+    title: Like Water - Garçons
     order: 2
     year: 2023
     role: Director & DP

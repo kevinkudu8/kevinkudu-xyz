@@ -15,7 +15,7 @@ export default function ContentPage() {
 
   return (
     <main className="px-gutter flex flex-1 flex-col pt-12 pb-16 sm:pt-16">
-      <h1 className="sr-only">Content: films and commissioned work</h1>
+      <h1 className="sr-only">Content: storytelling and web3</h1>
       <ContentTabs films={<FilmRow films={getWorkFilms()} />} commissioned={<CommissionedWork data={commissioned} />} />
     </main>
   );
