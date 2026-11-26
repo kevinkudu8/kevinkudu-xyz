@@ -1,7 +1,6 @@
 import Image from "next/image";
 import { HoverWord } from "@/components/hover-word";
 import { TiltPortrait } from "@/components/tilt-portrait";
-import { PortraitHeat } from "@/components/portrait-heat";
 import heroPortrait from "@/assets/hero-portrait.jpg";
 import seoulCardImage from "@/assets/card-seoul.jpg";
 import eventsCardImage from "@/assets/card-events.jpg";
@@ -35,7 +34,6 @@ export default function Home() {
             sizes="(max-width: 640px) 54vw, 20.25vw"
             className="h-full w-full object-cover object-center"
           />
-          <PortraitHeat />
         </TiltPortrait>
 
         <div className="min-w-0 max-w-[1000px]">
