@@ -2,7 +2,7 @@ import Image from "next/image";
 import { HoverWord } from "@/components/hover-word";
 import { TiltPortrait } from "@/components/tilt-portrait";
 import { PortraitHeat } from "@/components/portrait-heat";
-import heroPortrait from "@/assets/hero-portrait.png";
+import heroPortrait from "@/assets/hero-portrait.jpg";
 import seoulCardImage from "@/assets/card-seoul.jpg";
 import eventsCardImage from "@/assets/card-events.jpg";
 import contentCardImage from "@/assets/card-content.jpg";
@@ -45,8 +45,8 @@ export default function Home() {
             events 🎪
           </HoverWord>{" "}
           and{" "}
-          <HoverWord href="/content" card={contentCard}>
-            content 🎥
+          <HoverWord href="/film" card={contentCard}>
+            films 🎥
           </HoverWord>{" "}
           for tech and web3 companies. Currently living in{" "}
           <HoverWord card={seoulCard}>Seoul 🇰🇷</HoverWord>. I love{" "}

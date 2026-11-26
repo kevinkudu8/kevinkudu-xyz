@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useRef, useState } from "react";
-import { youtubeEmbed, youtubeThumb } from "@/lib/youtube";
+import { youtubeEmbed, youtubeThumb } from "@/lib/video";
 
 export type Commissioned = {
   intro: string;

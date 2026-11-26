@@ -1,10 +1,10 @@
-# Content (films)
+# Films (/film page)
 
 One folder per film. Order, title and details live in `film.md`.
 
     public/content/like-water/
       film.md        details and a one- or two-sentence description
-      poster.jpg     the still shown on the card (portrait works best)
+      still.jpg      the 16:9 still shown on the card (Vimeo thumbnails work well)
       preview.mp4    optional: short silent loop that plays on hover
       video.mp4      optional: the full film, opened on click
 
@@ -23,4 +23,6 @@ One folder per film. Order, title and details live in `film.md`.
     One or two sentences about the film.
 
 Instead of video.mp4 you can link a hosted video (YouTube or Vimeo) by adding
-`link: https://...` to film.md; the card then opens that link.
+`link: https://...` to film.md; it plays in the full-screen viewer.
+
+commissioned.json powers the unlisted /web3 page (not in the nav, noindex).

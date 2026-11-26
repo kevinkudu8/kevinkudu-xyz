@@ -17,7 +17,7 @@ export function HoverWord({
 }: {
   children: ReactNode;
   card: ReactNode;
-  href?: "/events" | "/content" | "/my-life";
+  href?: "/events" | "/film" | "/my-life";
 }) {
   const anchorRef = useRef<HTMLSpanElement>(null);
   const cardRef = useRef<HTMLSpanElement>(null);

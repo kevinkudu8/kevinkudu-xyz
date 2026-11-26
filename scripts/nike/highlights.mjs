@@ -39,6 +39,7 @@ const CITIES = [
   "Seoul",
   "Tokyo",
   "Kyoto",
+  "Shanghai",
   "Lisbon",
   "Paris",
   "Barcelona",
@@ -64,6 +65,7 @@ const RENAME = {
   "The Blue Mountains": "Blue Mountains",
   "Havelock-Belmont-Methuen": "Havelock",
   "Oaxaca City": "Oaxaca",
+  "Shangcheng District": "Hangzhou",
 };
 
 const metric = (a, type) => a.metrics?.find((m) => m.type === type)?.values ?? [];

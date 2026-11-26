@@ -7,8 +7,8 @@ import type { ShelfItem } from "@/lib/shelf-item";
 const PAGE = 24;
 
 const tabs = [
-  { id: "books", label: "Bookshelf", noun: ["book", "books"], groups: "Type" },
-  { id: "movies", label: "Movie shelf", noun: ["film", "films"], groups: "Decade" },
+  { id: "books", label: "Books", noun: ["book", "books"], groups: "Type" },
+  { id: "movies", label: "Movies", noun: ["film", "films"], groups: "Decade" },
   { id: "running", label: "Running" },
   { id: "travel", label: "Travel" },
 ] as const;
@@ -100,7 +100,7 @@ export function Shelf({
       <div
         role="tablist"
         aria-label="Shelves"
-        className="flex flex-wrap gap-x-6 gap-y-1 border-b border-foreground font-mono text-[0.7rem] tracking-[0.1em] uppercase sm:gap-10 sm:text-xs"
+        className="flex flex-wrap items-baseline gap-x-[clamp(1.1rem,2.2vw,2rem)] gap-y-2 text-[clamp(1.05rem,1.4vw,1.3rem)] leading-none tracking-[-0.01em]"
       >
         {tabs.map((t, i) => {
           const selected = t.id === tab;
@@ -115,10 +115,8 @@ export function Shelf({
               tabIndex={selected ? 0 : -1}
               onClick={() => select(t.id)}
               onKeyDown={(e) => onTabKey(e, i)}
-              className={`-mb-px shrink-0 border-b-2 px-1 pb-3 tracking-[inherit] whitespace-nowrap uppercase transition-colors ${
-                selected
-                  ? "border-foreground font-bold"
-                  : "border-transparent text-muted hover:text-foreground"
+              className={`shrink-0 whitespace-nowrap transition-colors duration-300 ${
+                selected ? "text-foreground" : "text-muted/55 hover:text-foreground"
               }`}
             >
               {t.label}
@@ -145,14 +143,8 @@ export function Shelf({
           >
             {all && shown && "noun" in t ? (
               <>
-                <div className="mt-6 flex flex-wrap items-center gap-3 font-mono text-[0.625rem] tracking-[0.1em] uppercase">
-                  <span className="text-muted">Filter:</span>
-                  <FilterPill active={favouritesOnly} onClick={() => filter(true)}>
-                    Favourites
-                  </FilterPill>
-                  <FilterPill active={!favouritesOnly} onClick={() => filter(false)}>
-                    All
-                  </FilterPill>
+                <div className="mt-7 flex flex-wrap items-center gap-x-6 gap-y-3 font-mono text-[0.625rem] tracking-[0.1em] uppercase">
+                  <Toggle favouritesOnly={favouritesOnly} onChange={filter} />
                   {groups.length > 1 && (
                     <FilterSelect
                       label={t.groups}
@@ -228,35 +220,40 @@ function Empty({ children }: { children: ReactNode }) {
   );
 }
 
-function FilterPill({
-  active,
-  onClick,
-  children,
-}: {
-  active: boolean;
-  onClick: () => void;
-  children: ReactNode;
-}) {
+/** Favourites / All as one switch; the filled thumb slides to the chosen side. */
+function Toggle({ favouritesOnly, onChange }: { favouritesOnly: boolean; onChange: (favourites: boolean) => void }) {
   return (
-    <button
-      type="button"
-      aria-pressed={active}
-      onClick={onClick}
-      className={`rounded-[3px] border px-4 py-1.5 tracking-[inherit] uppercase transition-colors ${
-        active
-          ? "border-foreground bg-foreground text-background"
-          : "border-foreground hover:bg-foreground/5"
-      }`}
-    >
-      {children}
-    </button>
+    <div role="group" aria-label="Show" className="relative grid grid-cols-2 rounded-full bg-foreground/[0.06]">
+      <span
+        aria-hidden
+        className={`absolute inset-y-0 left-0 w-1/2 rounded-full bg-foreground transition-transform duration-300 ease-[cubic-bezier(0.2,0.7,0.2,1)] motion-reduce:transition-none ${
+          favouritesOnly ? "" : "translate-x-full"
+        }`}
+      />
+      {([true, false] as const).map((fav) => {
+        const on = favouritesOnly === fav;
+        return (
+          <button
+            key={String(fav)}
+            type="button"
+            aria-pressed={on}
+            onClick={() => onChange(fav)}
+            className={`relative rounded-full px-3.5 py-1 tracking-[inherit] uppercase transition-colors duration-300 ${
+              on ? "text-background" : "text-muted hover:text-foreground"
+            }`}
+          >
+            {fav ? "Favourites" : "All"}
+          </button>
+        );
+      })}
+    </div>
   );
 }
 
 /**
- * A dropdown styled like the filter pills: outlined when set to "any",
- * filled once a value is chosen. A native select, so it works with keyboard
- * and screen readers, and on phones opens the system picker.
+ * A quiet text dropdown: muted while set to "any", full colour once a value is
+ * chosen. A native select, so it works with keyboard and screen readers, and
+ * on phones opens the system picker.
  */
 function FilterSelect({
   label,
@@ -272,13 +269,13 @@ function FilterSelect({
   const on = value !== null;
   return (
     <label
-      className={`relative inline-flex items-center rounded-[3px] border border-foreground transition-colors has-[select:focus-visible]:outline-2 has-[select:focus-visible]:outline-offset-2 ${
-        on ? "bg-foreground text-background" : "hover:bg-foreground/5"
+      className={`relative inline-flex items-center transition-colors has-[select:focus-visible]:outline-2 has-[select:focus-visible]:outline-offset-4 ${
+        on ? "text-foreground" : "text-muted hover:text-foreground"
       }`}
     >
-      {/* The box is sized by this visible label; the real select sits invisibly over it */}
-      <span aria-hidden className="py-1.5 pr-7 pl-4 whitespace-nowrap">
-        {label}: {value ?? "Any"}
+      {/* Sized by this visible label; the real select sits invisibly over it */}
+      <span aria-hidden className="border-b border-dotted border-current py-1 pr-4 whitespace-nowrap">
+        {label} <span className={on ? "font-bold" : undefined}>{value ?? "Any"}</span>
       </span>
       <select
         aria-label={label}
@@ -293,7 +290,7 @@ function FilterSelect({
           </option>
         ))}
       </select>
-      <svg aria-hidden viewBox="0 0 10 6" className="pointer-events-none absolute right-2.5 w-2 fill-current">
+      <svg aria-hidden viewBox="0 0 10 6" className="pointer-events-none absolute right-0 w-[7px] fill-current">
         <path d="M0 0h10L5 6Z" />
       </svg>
     </label>

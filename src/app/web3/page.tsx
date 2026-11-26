@@ -2,21 +2,23 @@ import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import type { Metadata } from "next";
 import { CommissionedWork, type Commissioned } from "@/components/commissioned-work";
-import { ContentTabs } from "@/components/content-tabs";
-import { FilmRow } from "@/components/film-row";
-import { getWorkFilms } from "@/lib/work-films";
 
-export const metadata: Metadata = { title: "Content" };
+// Unlisted: not in the nav or homepage, and kept out of search engines.
+// Kevin sends this link directly for job opportunities.
+export const metadata: Metadata = {
+  title: "Web3 work",
+  robots: { index: false, follow: false },
+};
 
-export default function ContentPage() {
+export default function Web3Page() {
   const commissioned = JSON.parse(
     readFileSync(join(process.cwd(), "public", "content", "commissioned.json"), "utf8"),
   ) as Commissioned;
 
   return (
     <main className="px-gutter flex flex-1 flex-col pt-12 pb-16 sm:pt-16">
-      <h1 className="sr-only">Content: storytelling and web3</h1>
-      <ContentTabs films={<FilmRow films={getWorkFilms()} />} commissioned={<CommissionedWork data={commissioned} />} />
+      <h1 className="sr-only">Web3 work</h1>
+      <CommissionedWork data={commissioned} />
     </main>
   );
 }

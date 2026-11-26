@@ -1,5 +1,6 @@
 "use client";
 
+import { usePathname } from "next/navigation";
 import { useSyncExternalStore } from "react";
 
 // e.g. "GMT+9 SEOUL 23:44", from the visitor's own clock and time zone
@@ -23,5 +24,7 @@ function subscribe(onChange: () => void) {
 export function LocalTime() {
   // Empty on the server; the visitor's time fills in on hydration
   const text = useSyncExternalStore(subscribe, read, () => "");
+  // Hidden on the film page; the empty span keeps the footer's X on the right
+  if (usePathname() === "/film") return <span />;
   return <span className="tabular-nums">{text}</span>;
 }

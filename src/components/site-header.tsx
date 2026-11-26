@@ -4,7 +4,7 @@ import { ThemeToggle } from "@/components/theme-toggle";
 
 const links = [
   { href: "/events", label: "Events" },
-  { href: "/content", label: "Content" },
+  { href: "/film", label: "Film" },
   { href: "/my-life", label: "My Life" },
   { href: "/contact", label: "Contact" },
 ] as const;
@@ -30,7 +30,7 @@ function HeaderLink({ href, className, children }: { href: "/" | (typeof links)[
 
 export function SiteHeader() {
   return (
-    <header className="px-gutter sticky top-0 z-40 pt-6 pb-4 [transform:translateZ(100px)] [text-shadow:0_0_6px_var(--background),0_0_14px_var(--background),0_0_2px_var(--background)] sm:pt-8 sm:pb-5 lg:pt-10">
+    <header className="px-gutter sticky top-0 z-40 pt-6 pb-4 [transform:translateZ(100px)] sm:pt-8 sm:pb-5 lg:pt-10">
       <nav
         aria-label="Main"
         className="flex flex-col items-start gap-4 sm:flex-row sm:items-center sm:justify-between sm:gap-6"

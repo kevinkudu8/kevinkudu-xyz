@@ -5,8 +5,8 @@ import { useEffect, useRef } from "react";
 /*
  * A heat trail over the hero portrait, after the party page on the GTHR site:
  * where the pointer has just been, the photo is read as a thermal image and
- * recoloured through a ramp taken from the portrait itself (black ground, the
- * cold blue rim light on the face, the orange-red halation around the shirt).
+ * recoloured through a ramp taken from the portrait itself (the dark forest,
+ * the moss-green water, the amber leaves).
  * The trail cools and thins behind the pointer, and the photo shows through
  * untouched everywhere else.
  */
@@ -14,17 +14,18 @@ import { useEffect, useRef } from "react";
 const TRAIL = 120; // points kept in the trail (enough for a few seconds of drawing)
 const LIFE = 5; // seconds each point glows
 
-// The portrait's own colours, dark to hot (raw sRGB)
+// The portrait's own colours, dark to hot (raw sRGB): the forest floor, pine
+// shadow, the moss-green water, then the amber of the turning leaves
 const RAMP: [number, string][] = [
-  [0, "04050a"],
-  [0.14, "0a1433"],
-  [0.3, "1d3f9e"],
-  [0.44, "4f86f0"],
-  [0.56, "bcd6ff"],
-  [0.66, "ff6a3d"],
-  [0.76, "f2361f"],
-  [0.86, "ffae84"],
-  [1, "fff3ea"],
+  [0, "050806"],
+  [0.14, "0d1a12"],
+  [0.3, "1f3d22"],
+  [0.44, "3f7a2c"],
+  [0.56, "8fd14f"],
+  [0.66, "e8a13a"],
+  [0.76, "d4612a"],
+  [0.86, "ffc98a"],
+  [1, "fff6e6"],
 ];
 
 const vertex = `

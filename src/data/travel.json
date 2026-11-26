@@ -1,11 +1,11 @@
 {
-  "asOf": "2026-09-26",
-  "note": "Stats from Flighty Passport (all-time). Places: Kevin's list of countries visited (20). Cities from overnight stays in the Flighty export; entries marked approximate are placeholder cities in countries reached by land or only connected through.",
+  "asOf": "2026-11-26",
+  "note": "Stats from Flighty Passport (all-time). Places: Kevin's list of countries visited (21). Cities from overnight stays in the Flighty export; entries marked approximate are placeholder cities in countries reached by land or only connected through.",
   "stats": {
-    "flights": 95,
-    "distanceKm": 362629,
-    "flightMinutes": 30300,
-    "airports": 51,
+    "flights": 99,
+    "distanceKm": 366312,
+    "flightMinutes": 30780,
+    "airports": 52,
     "firstFlight": "2015-05-05",
     "mostLandings": {
       "city": "Toronto",
@@ -31,6 +31,12 @@
       "iso": "CA",
       "lat": 43.676,
       "lon": -79.629
+    },
+    {
+      "city": "Shanghai",
+      "iso": "CN",
+      "lat": 31.144,
+      "lon": 121.808
     },
     {
       "city": "Bogotá",
